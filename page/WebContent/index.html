@@ -1,0 +1,21 @@
+<html>
+<body style="background-color:tomato; text-align: center;">
+<h1 style="color:black;font-size:300%;">welcome to cipher decipher</h1>
+
+<form action="/page/encrypt" method="post" onSubmit="return validate();" enctype="multipart/form-data">
+	name: <input type="text" id="fname" name="fname"><br>
+	<br>
+	 message:<input type="file" id="myfile" name="myfile" >
+	<br>
+	<br> mode:<input type="radio" name="options" value="encrypt">
+	encrypt <input type="radio" name="options" value="decrypt">
+	decrypt<br>
+	<br>
+	key: <input type="text" id="key" name="key"><br><br>
+		<button type="submit">submit</button>
+		<button type="button">reset</button>
+	<br>
+	<br>
+</form></body>
+<script type="text/javascript" src="js/index.js"></script>
+</html>
