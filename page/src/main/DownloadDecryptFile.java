@@ -2,6 +2,7 @@ package main;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -40,6 +41,10 @@ public class DownloadDecryptFile extends HttpServlet {
             while ((numBytesRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, numBytesRead);
             }
+        } catch (FileNotFoundException e) {
+        	System.out.println("Decrypted file is missing !!");
+        } catch (Exception e) {
+        	System.out.println("Unable to download file due to technical error !!");
         }
 	}
 

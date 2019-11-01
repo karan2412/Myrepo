@@ -69,24 +69,25 @@ public class Encrypt extends HttpServlet {
 			    }
 			}
 			
-			int result =  Integer.parseInt(y);
+			int key =  Integer.parseInt(y);
 			
 			String msg = "";
 			File f = null;
 			if(z.equals("encrypt")) {
-				msg = SDES.encrypt(content,result);
+				msg = SDES.encrypt(content,key);
 				f = new File("EncryptedFile.txt");
 				out.write("<h3>Your file has been encrypted successfully.</h3><br><a href='/page/DownloadEncryptFile'>Download File</a>");
 			} else {
-				msg = SDES.decrypt(content,result);
+				msg = SDES.decrypt(content,key);
 				f = new File("DecryptedFile.txt");
 				out.write("<h3>Your file has been decrypted successfully.</h3><br><a href='/page/DownloadDecryptFile'>Download File</a>");
 			}
 			f.createNewFile();
 			System.out.println(f.getAbsolutePath());
-			try(FileWriter fw = new FileWriter(f.getAbsolutePath())) {
-				fw.write(msg);
-			}
+
+			FileWriter fw = new FileWriter(f.getAbsolutePath(), StandardCharsets.ISO_8859_1);
+			fw.write(msg);
+			fw.close();
 
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block

@@ -31,16 +31,18 @@ public class DownloadEncryptFile extends HttpServlet {
 		response.setContentType("text/plain");
 		response.setHeader("Content-disposition", "attachment; filename=EncryptedFile.txt");
  
-        try(InputStream in = new FileInputStream(f);
-          OutputStream out = response.getOutputStream()) {
- 
-            byte[] buffer = new byte[1048];
-         
-            int numBytesRead;
-            while ((numBytesRead = in.read(buffer)) > 0) {
-                out.write(buffer, 0, numBytesRead);
-            }
+		InputStream in = new FileInputStream(f);
+        OutputStream out = response.getOutputStream();
+        
+        byte[] buffer = new byte[1048];
+     
+        int numBytesRead;
+        while ((numBytesRead = in.read(buffer)) > 0) {
+            out.write(buffer, 0, numBytesRead);
         }
+        
+        out.close();
+        in.close();
 	}
 
 }
