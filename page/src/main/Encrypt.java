@@ -72,39 +72,22 @@ public class Encrypt extends HttpServlet {
 			int result =  Integer.parseInt(y);
 			
 			String msg = "";
+			File f = null;
 			if(z.equals("encrypt")) {
 				msg = SDES.encrypt(content,result);
-				out.println( "success");
-			}
-			else {
+				f = new File("EncryptedFile.txt");
+				out.write("<h3>Your file has been encrypted successfully.</h3><br><a href='/page/DownloadEncryptFile'>Download File</a>");
+			} else {
 				msg = SDES.decrypt(content,result);
-				out.println(msg);
+				f = new File("DecryptedFile.txt");
+				out.write("<h3>Your file has been decrypted successfully.</h3><br><a href='/page/DownloadDecryptFile'>Download File</a>");
 			}
-//			File file = new File(fileName);
-//			System.out.println(file.getAbsolutePath());
-//			file.mkdirs();
-//			BufferedWriter oout = new BufferedWriter(new FileWriter(file,StandardCharsets.ISO_8859_1)); 
-			
-//			oout.write(msg);
-//			System.out.println( "success");
-//			oout.close();
-			out.write(msg);
-	         
-			
-			  String mimeType = "application/octet-stream";
-			  System.out.println("MIME type: " + mimeType);
-			  
-			  // modifies response response.setContentType(mimeType); // forces download
-			  String headerKey = "Content-Disposition"; String headerValue =
-			  String.format("attachment; filename=\"%s\"", fileName);
-			  response.setHeader(headerKey, headerValue);
-			  
-			  // obtains response's output stream 
-			  OutputStream outStream = response.getOutputStream(); 
-			  outStream.write(msg.getBytes());
-			  outStream.close();
-			 
-			
+			f.createNewFile();
+			System.out.println(f.getAbsolutePath());
+			try(FileWriter fw = new FileWriter(f.getAbsolutePath())) {
+				fw.write(msg);
+			}
+
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
