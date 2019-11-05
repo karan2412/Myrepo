@@ -1,13 +1,12 @@
 package main;
-import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 
@@ -82,12 +81,16 @@ public class Encrypt extends HttpServlet {
 				f = new File("DecryptedFile.txt");
 				out.write("<h3>Your file has been decrypted successfully.</h3><br><a href='/page/DownloadDecryptFile'>Download File</a>");
 			}
+			if (f.exists()) {
+				f.delete();
+			}
 			f.createNewFile();
 			System.out.println(f.getAbsolutePath());
 
-			FileWriter fw = new FileWriter(f.getAbsolutePath(), StandardCharsets.ISO_8859_1);
-			fw.write(msg);
-			fw.close();
+			
+			Writer fstream = new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.ISO_8859_1);
+			fstream.write(msg);
+			fstream.close();
 
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
