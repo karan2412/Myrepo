@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="js/jquery/jquery.qtip.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
 	<script type="text/JavaScript">
-		var CONTEXT_PATH = '';
+		var CONTEXT_PATH = 'test';
 	</script>
 </head>
 <body>
