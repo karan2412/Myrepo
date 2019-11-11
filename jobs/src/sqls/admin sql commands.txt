@@ -1,0 +1,8 @@
+show databases;
+flush privileges;
+select * from mysql.user;
+create user 'karan'@'localhost' identified by 'karan';
+#drop user karan@localhost;
+grant all privileges on jmit.* to karan@localhost;
+
+create database jmit;

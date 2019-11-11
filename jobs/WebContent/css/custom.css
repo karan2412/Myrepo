@@ -1,0 +1,59 @@
+input[type="text"], input[type="password"], input[type="radio"], textarea, select, input[type="file"] {
+	border: 1px solid #8b8b8e;
+}
+
+.loginContainer {
+	width: 98%;
+	padding-top: 80px;
+}
+
+.blackHeader {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.blackHeader tr th, .blackHeader tr td {
+	background: #3B3B3B;
+	color: #FFF;
+	padding: 4px;
+}
+
+.blackHeader tr td {
+	background: #E5E5DB;
+	color: #47433F;
+	border-top: 1px solid #FFF;
+}
+
+.cpsButton {
+	padding: 3px;
+	text-align: center;
+	width: auto;
+	background-color: #444;
+	color: #fff;
+	border: 1px solid #333;
+	cursor: pointer;
+	box-shadow: 2px 2px 1px #888;
+	border-radius: 2px;
+}
+
+.cpsButton:hover {
+	background-color: #323232;
+}
+
+.req:after {
+	content: " * ";
+	color: RED;
+	font-weight : bold;
+}
+
+.errors {
+	background-color:#FFCCCC;
+	border:1px solid #CC0000;
+	width:40%;
+	margin:auto auto 10px;
+	padding: 2px;
+	text-align: center;
+}
+.errors li{ 
+	list-style: none; 
+}
