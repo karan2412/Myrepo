@@ -33,13 +33,39 @@ public class Users extends HttpServlet {
 			if ("LIST".equals(mode)) {
 				getListOfUsers(request, response);
 			} else if ("ADD_USER".equals(mode)) {
-				
+				RequestDispatcher rd=request.getRequestDispatcher("jsp/users.jsp");
+				rd.forward(request, response);
+			} else if ("ADD_DATA".equals(mode)) {
+				addData(request, response);
+			} else if ("UPDATE_DATA".equals(mode)) {
+				updateData(request, response);
 			}
  			
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}  
 		
+	}
+
+	private void updateData(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void addData(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException, IOException {
+		
+		String name = request.getParameter("name");
+		String user_id = request.getParameter("user_id");
+		
+		Statement stmt = JobUtils.getConnection();  
+		Boolean noOfRecords = stmt.execute("insert into ... ");
+		
+		
+		
+		
+		
+		RequestDispatcher rd=request.getRequestDispatcher("jsp/layoutHome.jsp");
+		rd.forward(request, response);
 	}
 
 	private void getListOfUsers(HttpServletRequest request,

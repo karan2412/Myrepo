@@ -3,7 +3,7 @@
 <% 
 	String strMode = request.getParameter("MODE");
 %>
-<form id="employee" name="employee" action="users">
+<form id="employee" name="employee" >
 	<table width="100%">
 		<% if ("LIST".equals(strMode)) { %>
 		<tr><td>&nbsp;</td></tr>
@@ -60,35 +60,35 @@
 					</tr>
 					<tr>
 						<td width="30%">Employee ID</td>
-						<td width="70%"><input type="text" id="txtEmpId" name="txtEmpId" cssStyle="width: 50%;" disabled="true" value="%{objEmployee.empId}" /></td>
+						<td width="70%"><input type="text" id="txtEmpId" name="txtEmpId"  disabled="true" value="" /></td>
 					</tr>
 					<tr>
 						<td class="req">Name</td>
-						<td><input type="text" id="txtName" name="txtName" cssClass="tooltipped" title="Enter Full Name" cssStyle="width: 95%;"  value="%{objEmployee.name}" /></td>
+						<td><input type="text" id="txtName" name="txtName" cssClass="tooltipped" title="Enter Full Name" cssStyle="width: 95%;"  value="" /></td>
 					</tr>
 					<tr>
 						<td class="req">Password</td>
-						<td><input type="text" id="txtPassword" name="txtPassword" cssStyle="width: 95%;"  value="%{objEmployee.password}" /></td>
+						<td><input type="text" id="txtPassword" name="txtPassword" cssStyle="width: 95%;"  value="" /></td>
 					</tr>
 					<tr>
 						<td>Date of Birth</td>
-						<td><input type="text" id="txtDOB" name="txtDOB" cssStyle="width: 95%;"  value="%{objEmployee.dateOfBirth}"/></td>
+						<td><input type="text" id="txtDOB" name="txtDOB" cssStyle="width: 95%;"  value=""/></td>
 					</tr>
 					<tr>
 						<td>Phone</td>
-						<td><input type="text" id="txtPhone" name="txtPhone" cssStyle="width: 95%;"  value="%{objEmployee.telephone}" /></td>
+						<td><input type="text" id="txtPhone" name="txtPhone" cssStyle="width: 95%;"  value="" /></td>
 					</tr>
 					<tr>
 						<td class="req">Mobile</td>
-						<td><input type="text" id="txtMobile" name="txtMobile" cssStyle="width: 95%;" value="%{objEmployee.mobile}" /></td>
+						<td><input type="text" id="txtMobile" name="txtMobile" cssStyle="width: 95%;" value="" /></td>
 					</tr>
 					<tr>
 						<td class="req">E-mail</td>
-						<td><input type="text" id="txtEmail" name="txtEmail" cssStyle="width: 95%;"  value="%{objEmployee.email}" /></td>
+						<td><input type="text" id="txtEmail" name="txtEmail" cssStyle="width: 95%;"  value="" /></td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							<input type="button" class="cpsButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="validateAndSubmit('SAVE');" style="display: none;"/>
+							<input type="button" class="cpsButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="validateAndSubmit('SAVE');" />
 							<input type="button" class="cpsButton" id="btnUpdate" name="btnUpdate" value="Update" onclick="validateAndSubmit('UPDATE');" style="display: none;"/>
 							<input type="button" class="cpsButton" id="btnCancel" name="btnCancel" value="Cancel" onclick="closeToList();"/>
 						</td>
@@ -105,5 +105,16 @@
 	window.onload = function() {
 		console.log('This is home !!');
 	};
+	
+	function validateAndSubmit(type) {
+		//Validation goes here ..
+		
+		if (type == 'SAVE') {
+			document.forms[0].action = 'user?MODE=ADD_DATA';
+		} else if (type == 'UPDATE') {
+			document.forms[0].action = 'user?MODE=UPDATE_DATA';
+		}
+		document.forms[0].submit();
+	}
 </script>
 <jsp:include page="script.jsp" />

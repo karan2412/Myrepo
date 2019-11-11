@@ -5,7 +5,6 @@
 	<a href="login?action=signup">Sign Up</a>
 
 <jsp:include page="bottom.jsp" />
-
 <script type="text/javascript">
 	window.onload = function() {
 		console.log('This is home !!');
