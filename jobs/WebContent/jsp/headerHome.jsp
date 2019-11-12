@@ -15,12 +15,12 @@
 		</div>
 		<ul id="menu">
 			<!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
-			<li id="liHome"><a href="home.action">Home</a></li>
+			<li id="liHome"><a href="home">Home</a></li>
 
 			<li id="liUsers"><a href="users?MODE=LIST">Students</a></li>
 			<li id="liApplyClaim"><a href="claimapplication.action">Job Listing</a></li>
 
-			<li id="liContactUs"><a href="users?MODE=ADD_USER">Register</a></li>
+			<li id="liRegister"><a href="users?MODE=ADD_USER">Register</a></li>
 			<li id="liLogin"><a href="login.action">Login</a></li>
 			<li id="liLogout"><a href="logout.action">Logout</a></li>
 

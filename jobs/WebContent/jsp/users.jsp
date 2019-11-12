@@ -2,8 +2,15 @@
 <jsp:include page="top.jsp" />
 <% 
 	String strMode = request.getParameter("MODE");
+	String errorMsg = (String) request.getAttribute("ERROR_MSG");
+	String successMsg = (String) request.getAttribute("SUCCESS_MSG");
+	errorMsg = errorMsg == null ? "" : errorMsg;
+	successMsg = successMsg == null ? "" : successMsg;
 %>
-<form id="employee" name="employee" >
+<h3 style="color: RED; text-align: center;" id="infoMessage"><%= !"".equals(errorMsg) ? errorMsg : (!"".equals(successMsg) ? successMsg : "") %></h3>
+<form id="employee" name="employee" method="post">
+	<input type="hidden" id="MODE" name="MODE" value="<%= strMode %>">
+	<input type="hidden" id="USERID" name="USERID" value="${param.USERID}">
 	<table width="100%">
 		<% if ("LIST".equals(strMode)) { %>
 		<tr><td>&nbsp;</td></tr>
@@ -20,8 +27,7 @@
 							<th align="center">Address</th>
 							<th align="center">Stream</th>
 							<th align="center">Branch</th>
-							<th align="center">Edit</th>
-							<th align="center">Remove</th>
+							<th align="center">Update Info</th>
 						</tr>
 					</thead>
 					<!-- List of User to be iterated -->
@@ -34,8 +40,7 @@
 					        <td><c:out value="${u.address}"/></td>
 					        <td><c:out value="${u.stream}"/></td>
 					        <td><c:out value="${u.branch}"/></td>
-					        <td>Edit</td>
-					        <td>Delete</td>
+					        <td align="center"><input type="button" class="cpsButton" id="btnUpdate" name="btnUpdate" value="Update" onclick="updateStudentInfo('${u.userId}');"/></td>
 					    </tr>
 					</c:forEach>
 				</table>
@@ -47,55 +52,72 @@
 		<tr>
 			<td align="center">
 				<input type="button" id="btnAddEmployee" name="btnAddEmployee" value="Add Employee" class="cpsButton" onclick="addEmployee();"/>&nbsp;&nbsp;
-				<input type="button" id="btnClose" name="btnClose" value="Close" class="cpsButton" onclick="closeToHome();"/>
+				<input type="button" id="btnClose" name="btnClose" value="Close" class="cpsButton" onclick="closeToList();"/>
 			</td>
 		</tr>
 		<% } else { %>
 		<tr>
-			<td width="20%">&nbsp;</td>
-			<td width="60%">
+			<td width="10%">&nbsp;</td>
+			<td width="80%">
 				<table class="blackHeader">
 					<tr>
-						<th colspan="2">Employee's Profile</th>
+						<th colspan="4" style="text-align: center;">Student Registration</th>
 					</tr>
 					<tr>
-						<td width="30%">Employee ID</td>
-						<td width="70%"><input type="text" id="txtEmpId" name="txtEmpId"  disabled="true" value="" /></td>
+						<td colspan="4" style="text-decoration: underline; font-weight: bold;">Personal Details</td>
 					</tr>
 					<tr>
-						<td class="req">Name</td>
-						<td><input type="text" id="txtName" name="txtName" cssClass="tooltipped" title="Enter Full Name" cssStyle="width: 95%;"  value="" /></td>
+						<td width="20%" class="req">User ID</td>
+						<td width="30%"><input type="text" id="txtUserId" name="txtUserId" style="width: 95%;" <%= "UPDATE_USER".equals(strMode) ? "disabled" : ""%> value="${user.userId}" /></td>
+						<td width="20%" class="req">Name</td>
+						<td width="30%"><input type="text" id="txtName" name="txtName" title="Enter Full Name" style="width: 95%;"  value="${user.name}" /></td>
 					</tr>
 					<tr>
 						<td class="req">Password</td>
-						<td><input type="text" id="txtPassword" name="txtPassword" cssStyle="width: 95%;"  value="" /></td>
+						<td><input type="password" id="txtUserPassword" name="txtUserPassword" style="width: 95%;"  value="${user.password}" /></td>
+						<td class="req">Confirm Password</td>
+						<td><input type="text" id="txtConfirmPassword" name="txtConfirmPassword" style="width: 95%;"  value="${user.password}" /></td>
 					</tr>
 					<tr>
-						<td>Date of Birth</td>
-						<td><input type="text" id="txtDOB" name="txtDOB" cssStyle="width: 95%;"  value=""/></td>
-					</tr>
-					<tr>
-						<td>Phone</td>
-						<td><input type="text" id="txtPhone" name="txtPhone" cssStyle="width: 95%;"  value="" /></td>
+						<td>Address</td>
+						<td colspan="3"><input type="text" id="txtAddress" name="txtAddress" style="width: 97.5%;"  value="${user.address}" /></td>
 					</tr>
 					<tr>
 						<td class="req">Mobile</td>
-						<td><input type="text" id="txtMobile" name="txtMobile" cssStyle="width: 95%;" value="" /></td>
-					</tr>
-					<tr>
+						<td><input type="text" id="txtMobile" name="txtMobile" style="width: 95%;" value="${user.phone}" /></td>
 						<td class="req">E-mail</td>
-						<td><input type="text" id="txtEmail" name="txtEmail" cssStyle="width: 95%;"  value="" /></td>
+						<td><input type="text" id="txtEmail" name="txtEmail" style="width: 95%;"  value="${user.email}" /></td>
 					</tr>
 					<tr>
-						<td colspan="2" align="center">
-							<input type="button" class="cpsButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="validateAndSubmit('SAVE');" />
-							<input type="button" class="cpsButton" id="btnUpdate" name="btnUpdate" value="Update" onclick="validateAndSubmit('UPDATE');" style="display: none;"/>
+						<td colspan="4" style="text-decoration: underline; font-weight: bold;">Academic Details</td>
+					</tr>
+					<tr>
+						<td class="req">Stream</td>
+						<td><input type="text" id="txtStream" name="txtStream" style="width: 95%;" value="${user.stream}" /></td>
+						<td class="req">Branch</td>
+						<td><input type="text" id="txtBranch" name="txtBranch" style="width: 95%;"  value="${user.branch}" /></td>
+					</tr>
+					<tr>
+						<td class="req">Senior Secondary (10)</td>
+						<td><input type="text" id="txtMarksSsc" name="txtMarksSsc" style="width: 95%;" value="${user.marksSsc}" /></td>
+						<td class="req">Higher Secondary (12)</td>
+						<td><input type="text" id="txtMarksHsc" name="txtMarksHsc" style="width: 95%;"  value="${user.marksHsc}" /></td>
+					</tr>
+					<tr>
+						<td>Graduation</td>
+						<td><input type="text" id="txtMarksGrad" name="txtMarksGrad" style="width: 95%;" value="${user.marksGrad}" /></td>
+						<td>Post Graduation</td>
+						<td><input type="text" id="txtMarksPostGrad" name="txtMarksPostGrad" style="width: 95%;"  value="${user.marksPostGrad}" /></td>
+					</tr>
+					<tr>
+						<td colspan="4" align="center">
+							<input type="button" class="cpsButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="validateAndSubmit('<%= strMode %>');" />
 							<input type="button" class="cpsButton" id="btnCancel" name="btnCancel" value="Cancel" onclick="closeToList();"/>
 						</td>
 					</tr>
 				</table>
 			</td>
-			<td width="20%">&nbsp;</td>
+			<td width="10%">&nbsp;</td>
 		</tr>
 		<% } %>
 	</table>
@@ -103,18 +125,9 @@
 <jsp:include page="bottom.jsp" />
 <script type="text/javascript">
 	window.onload = function() {
-		console.log('This is home !!');
+
+		loadCssJsFile("js/user.js", "JS");
 	};
 	
-	function validateAndSubmit(type) {
-		//Validation goes here ..
-		
-		if (type == 'SAVE') {
-			document.forms[0].action = 'user?MODE=ADD_DATA';
-		} else if (type == 'UPDATE') {
-			document.forms[0].action = 'user?MODE=UPDATE_DATA';
-		}
-		document.forms[0].submit();
-	}
 </script>
 <jsp:include page="script.jsp" />

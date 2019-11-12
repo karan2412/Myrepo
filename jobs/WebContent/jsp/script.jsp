@@ -1,9 +1,15 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			console.log(window.location.pathname);
+
 			$('#menu li').removeClass('selected');
 			if (window.location.pathname == '/jobs/users') {
-				$('#liUsers').addClass('selected');
+				var mode = window.location.search.substr(1).split('=')[1];
+				if (mode == 'ADD_USER') {
+					$('#liRegister').addClass('selected');
+				} else {
+					$('#liUsers').addClass('selected');
+				}
 			} else if (window.location.pathname == '/cps/login.action' || window.location.pathname == '/cps/logout.action') {
 				$('#liLogin').addClass('selected');
 			} else if (window.location.pathname == '/cps/contactus.action') {

@@ -2,7 +2,7 @@
 <% 
 	String strMode = request.getParameter("MODE");
 %>
-<form id="employee" name="employee" action="users">
+<form id="employee" name="employee" >
 	<table width="100%">
 		<% if ("".equals(strMode)) { %>
 		<tr><td>&nbsp;</td></tr>
