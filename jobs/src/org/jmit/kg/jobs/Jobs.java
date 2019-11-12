@@ -13,9 +13,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jmit.kg.jobs.beans.Job;
 import org.jmit.kg.jobs.util.JobUtils;
+import org.jmit.kg.jobs.util.ValueUtil;
 
 @WebServlet("/jobs")
 public class Jobs extends HttpServlet {
@@ -27,12 +29,17 @@ public class Jobs extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		try {
-			String mode = request.getParameter("MODE");
-			System.out.println("MODE : " + mode);
+		HttpSession session = request.getSession();
+		String mode = request.getParameter("MODE");
+		System.out.println("MODE : " + mode);
 
-			if ("LIST".equals(mode)) {
+		try {
+
+			if (!ValueUtil.getBooleanValue(session.getAttribute("IS_LOGGED_IN"))) {
+				request.setAttribute("ERROR_MSG", "Please log in with your credentials !!!");
+				RequestDispatcher rd=request.getRequestDispatcher("login");
+				rd.forward(request, response);
+			} else if ("LIST".equals(mode)) {
 				getListOfJobs(request, response);
 			} else if ("ADD_JOB".equals(mode)) {
 				RequestDispatcher rd=request.getRequestDispatcher("jsp/jobs.jsp");

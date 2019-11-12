@@ -33,6 +33,7 @@ function updateStudentInfo(userId) {
 }
 
 function closeToList() {
-	document.forms[0].action = 'users?MODE=LIST';
+	$('#MODE').val('LIST');
+	document.forms[0].action = 'users';
 	document.forms[0].submit();
 }

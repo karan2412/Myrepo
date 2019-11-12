@@ -1,4 +1,11 @@
-
+<%@page import="org.jmit.kg.jobs.util.ValueUtil"%>
+<%
+	String userType = ValueUtil.getStringValueNotNull(session.getAttribute("USERTYPE"));
+	String userName = ValueUtil.getStringValueNotNull(session.getAttribute("USERNAME"));
+	String userId = ValueUtil.getStringValueNotNull(session.getAttribute("USERID"));
+	Boolean isLoggedIn = ValueUtil.getBooleanValue(session.getAttribute("IS_LOGGED_IN"));
+	System.out.print(userType + " " + userName + " " + userId + " " + isLoggedIn );
+%>
 <div id="header">
 	<div id="logo">
 		<div id="logo_text">
@@ -11,19 +18,23 @@
 	</div>
 	<div id="menubar">
 		<div style="float:left; color:white; padding-top: 10px;">
-			Welcome User !!
+			<% if (isLoggedIn) { %>
+			Welcome <%= userName %> (<%= userId %>) !!
+			<% }%>
 		</div>
 		<ul id="menu">
 			<!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
 			<li id="liHome"><a href="home">Home</a></li>
-
-			<li id="liUsers"><a href="users?MODE=LIST">Students</a></li>
-			<li id="liJobs"><a href="jobs?MODE=LIST">Job Listing</a></li>
-
-			<li id="liRegister"><a href="users?MODE=ADD_USER">Register</a></li>
-			<li id="liLogin"><a href="login.action">Login</a></li>
-			<li id="liLogout"><a href="logout.action">Logout</a></li>
-
+			<% if (isLoggedIn) { %>
+				<% if ("A".equals(userType)) { %>
+					<li id="liUsers"><a href="users?MODE=LIST">Students</a></li>
+				<% } %>
+				<li id="liJobs"><a href="jobs?MODE=LIST">Job Listing</a></li>
+				<li id="liLogout"><a href="logout">Logout</a></li>
+			<% } else { %>
+				<li id="liRegister"><a href="users?MODE=ADD_USER">Register</a></li>
+				<li id="liLogin"><a href="login">Login</a></li>
+			<% } %>
 		</ul>
 	</div>
 </div>

@@ -16,8 +16,8 @@
 				$('#liJobs').addClass('selected');
 			} else if (window.location.pathname == '/jobs/home') {
 				$('#liHome').addClass('selected');
-			} else if (window.location.pathname == '/cps/claimapplication.action') {
-				$('#liApplyClaim').addClass('selected');
+			} else if (window.location.pathname == '/jobs/login') {
+				$('#liLogin').addClass('selected');
 			} else if (window.location.pathname == '/cps/changepassword.action') {
 				$('#liChangePwd').addClass('selected');
 			}

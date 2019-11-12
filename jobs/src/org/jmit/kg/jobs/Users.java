@@ -14,9 +14,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jmit.kg.jobs.beans.User;
 import org.jmit.kg.jobs.util.JobUtils;
+import org.jmit.kg.jobs.util.ValueUtil;
 
 @WebServlet("/users")
 public class Users extends HttpServlet {
@@ -28,36 +30,39 @@ public class Users extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		HttpSession session = request.getSession();
+		String mode = request.getParameter("MODE");
+		System.out.println("MODE : " + mode);
 		try {
-			String mode = request.getParameter("MODE");
-			System.out.println("MODE : " + mode);
-
-			if ("LIST".equals(mode)) {
-				getListOfUsers(request, response);
-			} else if ("ADD_USER".equals(mode)) {
-				RequestDispatcher rd=request.getRequestDispatcher("jsp/users.jsp");
-				rd.forward(request, response);
-			} else if ("UPDATE_USER".equals(mode)) {
-				String userId = request.getParameter("USERID");
-				User user = findUser(userId);
-				if (user == null) {
-					request.setAttribute("ERROR_MSG", "User not found !!!");
-					request.setAttribute("SUCCESS_MSG", "");
-				}
-				request.setAttribute("user", user);
+			if ("ADD_USER".equals(mode)) {
 				RequestDispatcher rd=request.getRequestDispatcher("jsp/users.jsp");
 				rd.forward(request, response);
 			} else if ("ADD_DATA".equals(mode)) {
 				addData(request, response);
-			} else if ("UPDATE_DATA".equals(mode)) {
-				updateData(request, response);
-			}
- 			
+			} else  if (!ValueUtil.getBooleanValue(session.getAttribute("IS_LOGGED_IN"))) {
+				request.setAttribute("ERROR_MSG", "Please log in with your credentials !!!");
+				RequestDispatcher rd=request.getRequestDispatcher("login");
+				rd.forward(request, response);
+			} else {
+				if ("LIST".equals(mode)) {
+					getListOfUsers(request, response);
+				} else if ("UPDATE_USER".equals(mode)) {
+					String userId = request.getParameter("USERID");
+					User user = findUser(userId);
+					if (user == null) {
+						request.setAttribute("ERROR_MSG", "User not found !!!");
+						request.setAttribute("SUCCESS_MSG", "");
+					}
+					request.setAttribute("user", user);
+					RequestDispatcher rd=request.getRequestDispatcher("jsp/users.jsp");
+					rd.forward(request, response);
+				} else if ("UPDATE_DATA".equals(mode)) {
+					updateData(request, response);
+				}
+			}	 			
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}  
-		
 	}
 
 	private User findUser(String userId) throws ClassNotFoundException, SQLException {
