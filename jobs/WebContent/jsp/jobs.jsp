@@ -1,6 +1,8 @@
+<%@page import="org.jmit.kg.jobs.util.ValueUtil"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="top.jsp" />
 <% 
+	String userType = ValueUtil.getStringValueNotNull(session.getAttribute("USERTYPE"));
 	String strMode = request.getParameter("MODE");
 	String errorMsg = (String) request.getAttribute("ERROR_MSG");
 	String successMsg = (String) request.getAttribute("SUCCESS_MSG");
@@ -12,7 +14,7 @@
 	<input type="hidden" id="MODE" name="MODE" value="<%= strMode %>">
 	<input type="hidden" id="JOBID" name="JOBID" value="${param.JOBID}">
 	<table width="100%">
-		<% if ("LIST".equals(strMode)) { %>
+		<% if ("LIST".equals(strMode) || "APPLY_JOB".equals(strMode) ) { %>
 		<tr><td>&nbsp;</td></tr>
 		<tr>
 			<td>
@@ -27,7 +29,7 @@
 							<th align="center">Date of Visit</th>
 							<th align="center">Stream</th>
 							<th align="center">Branch</th>
-							<th align="center">Update Info</th>
+							<th align="center">Action</th>
 						</tr>
 					</thead>
 					<!-- List of User to be iterated -->
@@ -40,7 +42,13 @@
 					        <td><c:out value="${u.date}"/></td>
 					        <td><c:out value="${u.stream}"/></td>
 					        <td><c:out value="${u.branch}"/></td>
-					        <td align="center"><input type="button" class="cpsButton" id="btnUpdate" name="btnUpdate" value="Update" onclick="updateJobInfo('${u.jobId}');"/></td>
+					        <td align="center">
+					        <% if ("A".equals(userType)) { %>
+					        	<input type="button" class="cpsButton" id="btnUpdate" name="btnUpdate" value="Update" onclick="updateJobInfo('${u.jobId}');"/>
+							<% } else { %>
+					        	<input type="button" class="cpsButton" id="btnUpdate" name="btnUpdate" value="Apply" onclick="applyForJob('${u.jobId}');"/>
+				        	<% } %>
+					        </td>
 					    </tr>
 					</c:forEach>
 				</table>
@@ -51,7 +59,9 @@
 		</tr>
 		<tr>
 			<td align="center">
+			<% if ("A".equals(userType)) { %>
 				<input type="button" id="btnAddEmployee" name="btnAddEmployee" value="Post a Job" class="cpsButton" onclick="addJobPosting();"/>&nbsp;&nbsp;
+			<% } %>
 				<input type="button" id="btnClose" name="btnClose" value="Close" class="cpsButton" onclick="closeToHome();"/>
 			</td>
 		</tr>

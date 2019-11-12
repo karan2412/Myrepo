@@ -28,6 +28,9 @@
 			<% if (isLoggedIn) { %>
 				<% if ("A".equals(userType)) { %>
 					<li id="liUsers"><a href="users?MODE=LIST">Students</a></li>
+					<li id="liJobAppln"><a href="jobapplns">Job Applications</a></li>
+				<% } else { %>
+					<li id="liUsers"><a href="users?MODE=UPDATE_USER&USERID=<%= userId %>">My Profile</a></li>
 				<% } %>
 				<li id="liJobs"><a href="jobs?MODE=LIST">Job Listing</a></li>
 				<li id="liLogout"><a href="logout">Logout</a></li>

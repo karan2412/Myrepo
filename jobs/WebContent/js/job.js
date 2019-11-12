@@ -42,3 +42,11 @@ function closeToList() {
 	document.forms[0].action = 'jobs?MODE=LIST';
 	document.forms[0].submit();
 }
+
+function applyForJob(jobId) {
+
+	$('#MODE').val('APPLY_JOB');
+	$('#JOBID').val(jobId);
+	document.forms[0].action = 'jobs';
+	document.forms[0].submit();
+}

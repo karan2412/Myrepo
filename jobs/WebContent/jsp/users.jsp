@@ -1,6 +1,8 @@
+<%@page import="org.jmit.kg.jobs.util.ValueUtil"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="top.jsp" />
 <% 
+	String userType = ValueUtil.getStringValueNotNull(session.getAttribute("USERTYPE"));
 	String strMode = request.getParameter("MODE");
 	String errorMsg = (String) request.getAttribute("ERROR_MSG");
 	String successMsg = (String) request.getAttribute("SUCCESS_MSG");
@@ -11,6 +13,8 @@
 <form id="employee" name="employee" method="post">
 	<input type="hidden" id="MODE" name="MODE" value="<%= strMode %>">
 	<input type="hidden" id="USERID" name="USERID" value="${param.USERID}">
+	<input type="hidden" id="USERTYPE" name="USERTYPE" value="<%= userType %>">
+	
 	<table width="100%">
 		<% if ("LIST".equals(strMode)) { %>
 		<tr><td>&nbsp;</td></tr>

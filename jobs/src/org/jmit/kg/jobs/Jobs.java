@@ -41,6 +41,8 @@ public class Jobs extends HttpServlet {
 				rd.forward(request, response);
 			} else if ("LIST".equals(mode)) {
 				getListOfJobs(request, response);
+				RequestDispatcher rd=request.getRequestDispatcher("jsp/jobs.jsp");
+				rd.forward(request, response);
 			} else if ("ADD_JOB".equals(mode)) {
 				RequestDispatcher rd=request.getRequestDispatcher("jsp/jobs.jsp");
 				rd.forward(request, response);
@@ -54,12 +56,38 @@ public class Jobs extends HttpServlet {
 				addData(request, response);
 			} else if ("UPDATE_DATA".equals(mode)) {
 				updateData(request, response);
+			} else if ("APPLY_JOB".equals(mode)) {
+				getListOfJobs(request, response);
+				applyJob(request, response);
+			} else if ("APPLN".equals(mode)) {
+				// TODO: List of Job Applications
 			}
  			
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}  
 		
+	}
+
+	private void applyJob(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException, IOException {
+		String jobId = request.getParameter("JOBID");
+		HttpSession session = request.getSession();
+		String userId = ValueUtil.getStringValueNotNull(session.getAttribute("USERID"));
+
+		Statement stmt = JobUtils.getConnection();  
+		Integer inserted = stmt.executeUpdate("INSERT INTO JOB_APPLICATIONS  VALUES ("+jobId+", "+userId+")");
+		
+		RequestDispatcher rd = null;
+		request.setAttribute("SUCCESS_MSG", "");
+		request.setAttribute("ERROR_MSG", "");
+		if (inserted > 0) {
+			request.setAttribute("SUCCESS_MSG", "Job applied Successfully !!!");
+			rd = request.getRequestDispatcher("jsp/jobs.jsp");
+		} else {
+			request.setAttribute("ERROR_MSG", "Unable to post a Job !! Try after sometime !!");
+			rd = request.getRequestDispatcher("jsp/jobs.jsp");
+		}
+		rd.forward(request, response);		
 	}
 
 	private Job findJob(String jobId) throws ClassNotFoundException, SQLException {
@@ -176,8 +204,6 @@ public class Jobs extends HttpServlet {
 		
 		request.setAttribute("lstJobs", lstJobs);
 		
-		RequestDispatcher rd=request.getRequestDispatcher("jsp/jobs.jsp");
-		rd.forward(request, response);
 	}
 
 }

@@ -34,6 +34,10 @@ function updateStudentInfo(userId) {
 
 function closeToList() {
 	$('#MODE').val('LIST');
-	document.forms[0].action = 'users';
+	if ($('#USERTYPE').val() == 'S') {
+		document.forms[0].action = 'home';
+	} else {
+		document.forms[0].action = 'users';
+	}
 	document.forms[0].submit();
 }
