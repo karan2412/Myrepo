@@ -674,7 +674,7 @@ function calTimeDiff(startTime, endTime) {
 }
 
 function closeToHome() {
-	document.forms[0].action = 'home.action';
+	document.forms[0].action = 'home';
 	document.forms[0].submit();
 }
 

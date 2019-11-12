@@ -12,10 +12,10 @@
 				}
 			} else if (window.location.pathname == '/cps/login.action' || window.location.pathname == '/cps/logout.action') {
 				$('#liLogin').addClass('selected');
-			} else if (window.location.pathname == '/cps/contactus.action') {
-				$('#liContactUs').addClass('selected');
-			} else if (window.location.pathname == '/cps/employee.action') {
-				$('#liEmployee').addClass('selected');
+			} else if (window.location.pathname == '/jobs/jobs') {
+				$('#liJobs').addClass('selected');
+			} else if (window.location.pathname == '/jobs/home') {
+				$('#liHome').addClass('selected');
 			} else if (window.location.pathname == '/cps/claimapplication.action') {
 				$('#liApplyClaim').addClass('selected');
 			} else if (window.location.pathname == '/cps/changepassword.action') {

@@ -18,7 +18,7 @@
 			<li id="liHome"><a href="home">Home</a></li>
 
 			<li id="liUsers"><a href="users?MODE=LIST">Students</a></li>
-			<li id="liApplyClaim"><a href="claimapplication.action">Job Listing</a></li>
+			<li id="liJobs"><a href="jobs?MODE=LIST">Job Listing</a></li>
 
 			<li id="liRegister"><a href="users?MODE=ADD_USER">Register</a></li>
 			<li id="liLogin"><a href="login.action">Login</a></li>

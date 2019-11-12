@@ -15,3 +15,19 @@ CREATE TABLE `users` (
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
  
  INSERT INTO `users` VALUES (100,'sarthak123','8447666717','167, sector 18, jagadhri','Sarthak','B. Tech','CS',55,64,61,0,'er.sarthak25@gmail.com');
+ 
+ 
+ CREATE TABLE `jobs` (
+   `job_id` int(11) NOT NULL,
+   `job_title` varchar(45) NOT NULL,
+   `job_desc` varchar(1000) NOT NULL,
+   `company` varchar(150) DEFAULT NULL,
+   `date` varchar(45) NOT NULL,
+   `stream` varchar(45) DEFAULT NULL,
+   `branch` varchar(45) DEFAULT NULL,
+   `marks_ssc` int(11) DEFAULT NULL,
+   `marks_hsc` int(11) DEFAULT NULL,
+   `marks_grad` int(11) DEFAULT NULL,
+   PRIMARY KEY (`job_id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ 

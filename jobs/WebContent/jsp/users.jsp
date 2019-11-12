@@ -51,8 +51,7 @@
 		</tr>
 		<tr>
 			<td align="center">
-				<input type="button" id="btnAddEmployee" name="btnAddEmployee" value="Add Employee" class="cpsButton" onclick="addEmployee();"/>&nbsp;&nbsp;
-				<input type="button" id="btnClose" name="btnClose" value="Close" class="cpsButton" onclick="closeToList();"/>
+				<input type="button" id="btnClose" name="btnClose" value="Close" class="cpsButton" onclick="closeToHome();"/>
 			</td>
 		</tr>
 		<% } else { %>
