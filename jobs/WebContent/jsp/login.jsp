@@ -32,7 +32,7 @@
 					<tr>
 						<td colspan="4" align="center">
 							<input type="submit" class="cpsButton" id="btnSubmit" name="btnSubmit" value="Log In" />
-							<input type="button" class="cpsButton" id="btnCancel" name="btnCancel" value="Register" onclick="closeToList();"/>
+							<input type="button" class="cpsButton" id="btnRegister" name="btnRegister" value="Register" onclick="register();"/>
 						</td>
 					</tr>
 				</table>

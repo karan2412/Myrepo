@@ -16,26 +16,6 @@ The department is operated with a twin-fold focus, i.e. augmenting internal comp
 <p>
 Placement process aims to match the requirement of the recruiter and the budding aspirations of the students by under-mentioned tasks/ events:
 </p>
-<ul>
-
-	<li>ECPS Facets solution is a healthcare IT platform with an
-		integrated application called Facets Workflow that supports more
-		efficient claims processing by routing claims and other tasks to the
-		right person at the right time. By balancing workloads more
-		effectively, the Facets Workflow solution helps increase processing
-		speed and helps ensure that higher priority items are processed first,
-		enabling payers to secure more discounts for prompt payment.</li>
-	<li>ECPS NetworX Suite of solutions helps manage provider networks
-		and includes applications for more accurate claims pricing and for
-		administering bundled payments.</li>
-	<li>ECPS Qiclink Extended Enterprise (Qiclink e2) solution helps
-		benefits administrators reduce the cost of processing claims by
-		improving auto-adjudication rates.</li>
-	<li>ECPS QNXT is a core administration system with an open
-		platform that supports more efficient medical and dentalclaims
-		processing.</li>
-
-</ul>
 	
 
 <jsp:include page="bottom.jsp" />

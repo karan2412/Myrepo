@@ -14,7 +14,7 @@
 				$('#liLogin').addClass('selected');
 			} else if (window.location.pathname == '/jobs/jobs') {
 				$('#liJobs').addClass('selected');
-			} else if (window.location.pathname == '/jobs/home') {
+			} else if (window.location.pathname == '/jobs/home' || window.location.pathname == '/jobs/') {
 				$('#liHome').addClass('selected');
 			} else if (window.location.pathname == '/jobs/login') {
 				$('#liLogin').addClass('selected');

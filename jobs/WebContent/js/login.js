@@ -27,3 +27,9 @@ function closeToList() {
 	document.forms[0].action = 'jobs?MODE=LIST';
 	document.forms[0].submit();
 }
+
+
+function register() {
+	document.forms[0].action = 'users?MODE=ADD_USER';
+	document.forms[0].submit();
+}
