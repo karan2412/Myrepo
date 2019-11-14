@@ -18,8 +18,8 @@
 				$('#liHome').addClass('selected');
 			} else if (window.location.pathname == '/jobs/login') {
 				$('#liLogin').addClass('selected');
-			} else if (window.location.pathname == '/cps/changepassword.action') {
-				$('#liChangePwd').addClass('selected');
+			} else if (window.location.pathname == '/jobs/jobapplns') {
+				$('#liJobAppln').addClass('selected');
 			}
 		});
 		$('.tooltipped').qtip({

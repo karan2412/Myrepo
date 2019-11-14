@@ -205,7 +205,7 @@ ul#menu li a:hover {
 /* 	overflow: hidden; */
 	margin: 20px auto 0 auto;
 	padding: 0 0 10px 0;
-	min-height: 420px;
+	/* min-height: 420px; */
 }
 
 #sidebar_container {
@@ -260,6 +260,8 @@ ul#menu li a:hover {
 	text-align: center;
 	background: #3B3939 url(footer.png) repeat-x;
 	color: #A8AA94;
+	position: absolute;
+	bottom: 0;
 }
 
 #footer p {

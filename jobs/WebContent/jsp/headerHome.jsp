@@ -11,7 +11,7 @@
 		<div id="logo_text">
 			<!-- class="logo_colour", allows you to change the colour of the text -->
 			<h1>
-				<a href="index.html"><span class="logo_colour">JMIT - Electronic Placement Job Portal</span></a>
+				<a href="home"><span class="logo_colour">JMIT - Electronic Placement Job Portal</span></a>
 			</h1>
 			<h2>Simpler. Faster. Paperless.</h2>
 		</div>
@@ -28,7 +28,7 @@
 			<% if (isLoggedIn) { %>
 				<% if ("A".equals(userType)) { %>
 					<li id="liUsers"><a href="users?MODE=LIST">Students</a></li>
-					<li id="liJobAppln"><a href="jobapplns">Job Applications</a></li>
+					<li id="liJobAppln"><a href="jobapplns?MODE=LIST">Job Applications</a></li>
 				<% } else { %>
 					<li id="liUsers"><a href="users?MODE=UPDATE_USER&USERID=<%= userId %>">My Profile</a></li>
 				<% } %>
