@@ -19,7 +19,7 @@ public class Logout extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		session.removeAttribute("USERID");
+		session.removeAttribute("ROLLNO");
 		session.removeAttribute("USERNAME");
 		session.removeAttribute("USERTYPE");
 		session.removeAttribute("IS_LOGGED_IN");

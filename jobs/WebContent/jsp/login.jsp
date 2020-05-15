@@ -11,7 +11,7 @@
 <form id="employee" name="employee" method="post" action="login" onsubmit="return validateLogin();">
 	<input type="hidden" id="MODE" name="MODE" value="<%= strMode %>">
 	<input type="hidden" id="USERTOKEN" name="USERTOKEN" value="${param.USERTOKEN}">
-	<input type="hidden" id="USERID" name="USERID" value="${param.USERID}">
+	<input type="hidden" id="ROLLNO" name="ROLLNO" value="${param.ROLLNO}">
 	<input type="hidden" id="USERNAME" name="USERNAME" value="${param.USERNAME}">
 	<table width="100%">
 		<tr>
@@ -22,8 +22,8 @@
 						<th colspan="4" style="text-align: center;">Login</th>
 					</tr>
 					<tr>
-						<td width="40%" class="req">User ID</td>
-						<td width="60%"><input type="text" id="txtUserId" name="txtUserId" style="width: 95%;" /></td>
+						<td width="40%" class="req">Roll Number</td>
+						<td width="60%"><input type="text" id="txtroll" name="txtroll" style="width: 95%;" /></td>
 					</tr>
 					<tr>
 						<td class="req">Password</td>

@@ -26,30 +26,30 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("Hello World ");
 		
 		String action = request.getParameter("action");
-		String userId = request.getParameter("txtUserId");
+		String rollno = request.getParameter("txtroll");
 		String password = request.getParameter("txtPassword");
 		System.out.println("Action called is " + action);
 		
-		if (userId == null || "".equals(userId)) {
+		if (rollno == null || "".equals(rollno)) {
 			RequestDispatcher rd = request.getRequestDispatcher("jsp/login.jsp");
 			rd.forward(request, response);
 		}
 		
 		try {
 			Statement stmt = JobUtils.getConnection();  
-			ResultSet rs = stmt.executeQuery("select * from users where user_id = '"+userId+"' AND password = '"+password+"'");
+			ResultSet rs = stmt.executeQuery("select * from users where roll_number = '"+rollno+"' AND password = '"+password+"'");
 			
  			if (rs.first()) {
  				
- 				String userName = rs.getString(5);
+ 				String userName = rs.getString(3);
  				String userType = "";
- 				if ("1".equalsIgnoreCase(userId)) {
+ 				if ("1".equalsIgnoreCase(rollno)) {
  					userType = "A";
  				} else {
  					userType = "S";
  				}
  				HttpSession session = request.getSession();
- 				session.setAttribute("USERID", userId);
+ 				session.setAttribute("ROLLNO", rollno);
  				session.setAttribute("USERNAME", userName);
  				session.setAttribute("USERTYPE", userType);
  				session.setAttribute("IS_LOGGED_IN", true);

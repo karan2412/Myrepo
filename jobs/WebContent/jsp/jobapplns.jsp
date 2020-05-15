@@ -28,21 +28,19 @@
 							<th align="center">Company</th>
 							<th align="center">Date of Visit</th>
 							<th align="center">Stream</th>
-							<th align="center">Branch</th>
 						</tr>
 					</thead>
 					<!-- List of User to be iterated -->
 					<c:forEach items="${lstJobApplns}" var="u">
 					    <tr>
-					        <td><c:out value="${u.userId}"/></td>
+					        <td><c:out value="${u.rollno}"/></td>
 					        <td><c:out value="${u.name}"/></td>
-					        <td><c:out value="${u.phone}"/></td>
+					        <td><c:out value="${u.mobile}"/></td>
 					        <td><c:out value="${u.jobId}"/></td>
 					        <td><c:out value="${u.jobTitle}"/></td>
 					        <td><c:out value="${u.company}"/></td>
 					        <td><c:out value="${u.date}"/></td>
 					        <td><c:out value="${u.stream}"/></td>
-					        <td><c:out value="${u.branch}"/></td>
 					    </tr>
 					</c:forEach>
 				</table>

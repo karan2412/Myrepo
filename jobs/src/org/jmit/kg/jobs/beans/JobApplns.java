@@ -3,14 +3,14 @@ package org.jmit.kg.jobs.beans;
 public class JobApplns {
 
 	private Integer jobId;
-	private Integer userId;
+	private Integer rollno;
 	private String name;
-	private String phone;
+	private String mobile;
 	private String jobTitle;
 	private String company;
 	private String date;
 	private String stream;
-	private String branch;
+	private String timevenue;
 
 	public String getName() {
 		return name;
@@ -20,12 +20,12 @@ public class JobApplns {
 		this.name = name;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public Integer getJobId() {
@@ -36,12 +36,13 @@ public class JobApplns {
 		this.jobId = jobId;
 	}
 
-	public Integer getUserId() {
-		return userId;
+
+	public Integer getRollno() {
+		return rollno;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setRollno(Integer rollno) {
+		this.rollno = rollno;
 	}
 
 	public String getJobTitle() {
@@ -76,11 +77,12 @@ public class JobApplns {
 		this.stream = stream;
 	}
 
-	public String getBranch() {
-		return branch;
+	public String getTimevenue() {
+		return timevenue;
 	}
 
-	public void setBranch(String branch) {
-		this.branch = branch;
+	public void setTimevenue(String timevenue) {
+		this.timevenue = timevenue;
 	}
+
 }

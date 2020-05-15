@@ -72,10 +72,10 @@ public class Jobs extends HttpServlet {
 	private void applyJob(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException, IOException {
 		String jobId = request.getParameter("JOBID");
 		HttpSession session = request.getSession();
-		String userId = ValueUtil.getStringValueNotNull(session.getAttribute("USERID"));
+		String rollno = ValueUtil.getStringValueNotNull(session.getAttribute("ROLLNO"));
 
 		Statement stmt = JobUtils.getConnection();  
-		Integer inserted = stmt.executeUpdate("INSERT INTO JOB_APPLICATIONS  VALUES ("+jobId+", "+userId+")");
+		Integer inserted = stmt.executeUpdate("INSERT INTO JOB_APPLICATIONS  VALUES ("+jobId+", "+rollno+")");
 		
 		RequestDispatcher rd = null;
 		request.setAttribute("SUCCESS_MSG", "");
@@ -103,10 +103,12 @@ public class Jobs extends HttpServlet {
 			job.setCompany(rs.getString(4));
 			job.setDate(rs.getString(5));
 			job.setStream(rs.getString(6));
-			job.setBranch(rs.getString(7));
-			job.setMarksSsc(rs.getInt(8));
-			job.setMarksHsc(rs.getInt(9));
-			job.setMarksGrad(rs.getInt(10));
+			job.setTimenvenue(rs.getString(7));
+			job.setMarksSsc(rs.getDouble(8));
+			job.setMarksHsc(rs.getDouble(9));
+			job.setMarksGrad(rs.getDouble(10));
+			job.setMarksPGrad(rs.getDouble(11));
+			job.setBacklogs(rs.getInt(12));
 		}
 		
 		return job;
@@ -114,23 +116,24 @@ public class Jobs extends HttpServlet {
 
 	private void updateData(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException, IOException {
 		String jobId = request.getParameter("JOBID");
-		
 		String title = request.getParameter("txtJobTitle");
 		String desc = request.getParameter("txtJobDesc");
 		String company = request.getParameter("txtCompany");
 		String date = request.getParameter("txtDate");
-		
 		String stream = request.getParameter("txtStream");
-		String branch = request.getParameter("txtBranch");
+		String timenvenue = request.getParameter("txttimenven");
 		String ssc = request.getParameter("txtMarksSsc");
 		String hsc = request.getParameter("txtMarksHsc");
 		String grad = request.getParameter("txtMarksGrad");
+		String pgrad = request.getParameter("txtMarksPGrad");
+		String backlog = request.getParameter("txtallow");
+
 
 		Statement stmt = JobUtils.getConnection();  
 		
 		Integer updated = stmt.executeUpdate("UPDATE JOBS SET  job_desc = '"+desc+"', date = '"+date+"', company = '"+company+"', "
-				+ "stream = '"+stream+"', branch = '"+branch+"', job_title  = '"+title+"',"
-				+ "marks_ssc = "+ssc+", marks_hsc = "+hsc+", marks_grad = "+grad+" WHERE JOB_ID = " + jobId);
+				+ "stream = '"+stream+"', time_and_venue = '"+timenvenue+"', job_title  = '"+title+"',"
+				+ "marks_ssc = "+ssc+", marks_hsc = "+hsc+", marks_grad = "+grad+", marks_postgraduation = "+pgrad+", Allowed_backlogs = "+backlog+" WHERE JOB_ID = " + jobId);
 		
 		RequestDispatcher rd = null;
 		request.setAttribute("SUCCESS_MSG", "");
@@ -148,27 +151,30 @@ public class Jobs extends HttpServlet {
 
 	private static void addData(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException, IOException {
 		
-		String userId = request.getParameter("txtJobId");
+		//String userId = request.getParameter("txtJobId");
 		String title = request.getParameter("txtJobTitle");
 		String desc = request.getParameter("txtJobDesc");
 		String company = request.getParameter("txtCompany");
 		String date = request.getParameter("txtDate");
 		String stream = request.getParameter("txtStream");
-		String branch = request.getParameter("txtBranch");
+		String timenvenue = request.getParameter("txttimenven");
 		String ssc = request.getParameter("txtMarksSsc");
 		String hsc = request.getParameter("txtMarksHsc");
 		String grad = request.getParameter("txtMarksGrad");
+		String pgrad = request.getParameter("txtMarksPGrad");
+		String backlog = request.getParameter("txtallow");
 
 		Statement stmt = JobUtils.getConnection();  
 		//(user_id, password, phone, address, name, stream, branch, marks_ssc, marks_hsc, marks_grad, marks_postgrad, email)
-		Integer inserted = stmt.executeUpdate("INSERT INTO JOBS  VALUES ('"+userId+"', '"+title+"', '"+desc+"', '"+company+"', '"+date+"', '"+stream+"', "
-						+ "'"+branch+"', "+ssc+", "+hsc+", "+grad+")");
+		Integer inserted = stmt.executeUpdate("INSERT INTO JOBS (job_title, job_desc, company, date, stream, time_and_venue, marks_ssc, marks_hsc, marks_grad, marks_postgraduation, Allowed_backlogs) VALUES ('"+title+"', '"+desc+"', '"+company+"', '"+date+"', '"+stream+"', "
+						+ "'"+timenvenue+"', "+ssc+", "+hsc+", "+grad+", "+pgrad+", "+backlog+")");
 		
 		RequestDispatcher rd = null;
 		request.setAttribute("SUCCESS_MSG", "");
 		request.setAttribute("ERROR_MSG", "");
 		if (inserted > 0) {
 			request.setAttribute("SUCCESS_MSG", "Job Posted Successfully !!!");
+			//request.setAttribute("MODE", "LIST");
 			rd = request.getRequestDispatcher("jsp/jobs.jsp");
 		} else {
 			request.setAttribute("ERROR_MSG", "Unable to post a Job !! Try after sometime !!");
@@ -194,10 +200,12 @@ public class Jobs extends HttpServlet {
 			job.setCompany(rs.getString(4));
 			job.setDate(rs.getString(5));
 			job.setStream(rs.getString(6));
-			job.setBranch(rs.getString(7));
-			job.setMarksSsc(rs.getInt(8));
-			job.setMarksHsc(rs.getInt(9));
-			job.setMarksGrad(rs.getInt(10));
+			job.setTimenvenue(rs.getString(7));
+			job.setMarksSsc(rs.getDouble(8));
+			job.setMarksHsc(rs.getDouble(9));
+			job.setMarksGrad(rs.getDouble(10));
+			job.setMarksPGrad(rs.getDouble(11));
+			job.setBacklogs(rs.getInt(12));
 			
 			lstJobs.add(job);
 		}

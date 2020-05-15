@@ -18,7 +18,7 @@
 		<tr><td>&nbsp;</td></tr>
 		<tr>
 			<td>
-				<table id="tblRecordList"  width="100%" class="blackHeader">
+				<table id="tblRecordList" width="100%" class="blackHeader">
 					<thead>
 						<tr>
 							<!-- <th align="center">S. No.</th> -->
@@ -28,7 +28,7 @@
 							<th align="center">Company</th>
 							<th align="center">Date of Visit</th>
 							<th align="center">Stream</th>
-							<th align="center">Branch</th>
+							<th align="center">Time and Venue</th>
 							<th align="center">Action</th>
 						</tr>
 					</thead>
@@ -36,12 +36,12 @@
 					<c:forEach items="${lstJobs}" var="u">
 					    <tr>
 					        <td><c:out value="${u.jobId}"/></td>
-					        <td><c:out value="${u.jobTitle}"/></td>
+					        <td><c:out value="${u.jobTitle}"/></td>	
 					        <%-- <td><c:out value="${u.jobDesc}"/></td> --%>
 					        <td><c:out value="${u.company}"/></td>
 					        <td><c:out value="${u.date}"/></td>
 					        <td><c:out value="${u.stream}"/></td>
-					        <td><c:out value="${u.branch}"/></td>
+					        <td><c:out value="${u.timenvenue}"/></td>
 					        <td align="center">
 					        <% if ("A".equals(userType)) { %>
 					        	<input type="button" class="cpsButton" id="btnUpdate" name="btnUpdate" value="Update" onclick="updateJobInfo('${u.jobId}');"/>
@@ -74,44 +74,48 @@
 						<th colspan="4" style="text-align: center;">Job Posting</th>
 					</tr>
 					<tr>
-						<td width="30%" class="req">Job ID</td>
-						<td width="70%"><input type="text" id="txtJobId" name="txtJobId" style="width: 95%;" <%= "UPDATE_JOB".equals(strMode) ? "disabled" : ""%> value="${job.jobId}" /></td>
-					</tr>
-					<tr>
 						<td class="req">Job Title</td>
-						<td><input type="text" id="txtJobTitle" name="txtJobTitle" style="width: 95%;"  value="${job.jobTitle}" /></td>
+						<td colspan="3"><input type="text" id="txtJobTitle" name="txtJobTitle" style="width: 95%;"  value="${job.jobTitle}" /></td>
 					</tr>
 					<tr>
 						<td class="req">Job Description</td>
-						<td><textarea rows="3" id="txtJobDesc" name="txtJobDesc" style="width: 95%;">${job.jobDesc}</textarea></td>
+						<td colspan="3"><textarea rows="3" id="txtJobDesc" name="txtJobDesc" style="width: 95%;">${job.jobDesc}</textarea></td>
 					</tr>
 					<tr>
 						<td class="req">Company Name</td>
-						<td><input type="text" id="txtCompany" name="txtCompany" style="width: 95%;"  value="${job.company}" /></td>
+						<td colspan="3"><input type="text" id="txtCompany" name="txtCompany" style="width: 95%;"  value="${job.company}" /></td>
 					</tr>
 					<tr>
 						<td class="req">Date of Visit</td>
-						<td><input type="text" id="txtDate" name="txtDate" style="width: 95%;" value="${job.date}" /></td>
+						<td colspan="3"><input type="date" id="txtDate" name="txtDate" style="width: 95%;" value="${job.date}" /></td>
 					</tr>
 					<tr>
 						<td class="req">Stream</td>
-						<td><input type="text" id="txtStream" name="txtStream" style="width: 95%;" value="${job.stream}" /></td>
+						<td colspan="3"><input type="text" id="txtStream" name="txtStream" style="width: 95%;" value="${job.stream}" /></td>
 					</tr>
 					<tr>
-						<td class="req">Branch</td>
-						<td><input type="text" id="txtBranch" name="txtBranch" style="width: 95%;"  value="${job.branch}" /></td>
+						<td class="req">Time and Venue</td>
+						<td colspan="3"><input type="text" id="txttimenven" name="txttimenven" style="width: 95%;" value="${job.timenvenue}"/></td>
 					</tr>
 					<tr>
-						<td class="req">Senior Secondary (10)</td>
+						<td colspan="4" style="text-decoration: underline; font-weight: bold;">Eligibility Criteria</td>
+					</tr>
+					<tr>
+						<td class="req">Senior Secondary %</td>
 						<td><input type="text" id="txtMarksSsc" name="txtMarksSsc" style="width: 95%;" value="${job.marksSsc}" /></td>
-					</tr>
-					<tr>
-						<td class="req">Higher Secondary (12)</td>
+						<td class="req">Higher Secondary %</td>
 						<td><input type="text" id="txtMarksHsc" name="txtMarksHsc" style="width: 95%;"  value="${job.marksHsc}" /></td>
 					</tr>
 					<tr>
-						<td class="req">Graduation</td>
+						<td class="req">Graduation %</td>
 						<td><input type="text" id="txtMarksGrad" name="txtMarksGrad" style="width: 95%;" value="${job.marksGrad}" /></td>
+						<td class="req">Post Graduation %</td>
+						<td><input type="text" id="txtMarkspGrad" name="txtMarkspGrad" style="width: 95%;"  value="${job.marksPGrad}"/></td>
+					
+					</tr>
+					<tr>
+						<td class="req">Allowed Backlogs</td>
+						<td colspan="3"><input type="text" id="txtallow" name="txtallow" style="width: 95%;"  value="${job.backlogs}"/></td>
 					</tr>
 					<tr>
 						<td colspan="4" align="center">

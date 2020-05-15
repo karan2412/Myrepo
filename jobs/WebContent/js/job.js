@@ -7,10 +7,11 @@ function validateAndSubmit(type) {
 	if ($('#txtCompany').val() == "") arrMandatoryFields.push('txtCompany');
 	if ($('#txtDate').val() == "") arrMandatoryFields.push('txtDate');
 	if ($('#txtStream').val() == "") arrMandatoryFields.push('txtStream');
-	if ($('#txtBranch').val() == "") arrMandatoryFields.push('txtBranch');
+	if ($('#txttimenven').val() == "") arrMandatoryFields.push('txttimenven');
 	if ($('#txtMarksSsc').val() == "") arrMandatoryFields.push('txtMarksSsc');
 	if ($('#txtMarksHsc').val() == "") arrMandatoryFields.push('txtMarksHsc');
 	if ($('#txtMarksGrad').val() == "") arrMandatoryFields.push('txtMarksGrad');
+	if ($('#txtallow').val() == "") arrMandatoryFields.push('txtallow');
 
 	if (!checkMandatoryFields()) return false;
 	

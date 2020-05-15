@@ -1,6 +1,6 @@
 function validateLogin(type) {
 	arrMandatoryFields.length = 0;
-	if ($('#txtUserId').val() == "") arrMandatoryFields.push('txtUserId');
+	if ($('#txtroll').val() == "") arrMandatoryFields.push('txtroll');
 	if ($('#txtPassword').val() == "") arrMandatoryFields.push('txtPassword');
 	if (!checkMandatoryFields()) return false;
 	

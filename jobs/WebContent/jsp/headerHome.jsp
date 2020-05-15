@@ -2,9 +2,9 @@
 <%
 	String userType = ValueUtil.getStringValueNotNull(session.getAttribute("USERTYPE"));
 	String userName = ValueUtil.getStringValueNotNull(session.getAttribute("USERNAME"));
-	String userId = ValueUtil.getStringValueNotNull(session.getAttribute("USERID"));
+	String rollNo = ValueUtil.getStringValueNotNull(session.getAttribute("ROLLNO"));
 	Boolean isLoggedIn = ValueUtil.getBooleanValue(session.getAttribute("IS_LOGGED_IN"));
-	System.out.print(userType + " " + userName + " " + userId + " " + isLoggedIn );
+	System.out.print(userType + " " + userName + " " + rollNo + " " + isLoggedIn );
 %>
 <div id="header">
 	<div id="logo">
@@ -19,7 +19,7 @@
 	<div id="menubar">
 		<div style="float:left; color:white; padding-top: 10px;">
 			<% if (isLoggedIn) { %>
-			Welcome <%= userName %> (<%= userId %>) !!
+			Welcome <%= userName %> (<%= rollNo %>) !!
 			<% }%>
 		</div>
 		<ul id="menu">
@@ -30,7 +30,7 @@
 					<li id="liUsers"><a href="users?MODE=LIST">Students</a></li>
 					<li id="liJobAppln"><a href="jobapplns?MODE=LIST">Job Applications</a></li>
 				<% } else { %>
-					<li id="liUsers"><a href="users?MODE=UPDATE_USER&USERID=<%= userId %>">My Profile</a></li>
+					<li id="liUsers"><a href="users?MODE=UPDATE_USER&ROLLNO=<%= rollNo %>">My Profile</a></li>
 				<% } %>
 				<li id="liJobs"><a href="jobs?MODE=LIST">Job Listing</a></li>
 				<li id="liLogout"><a href="logout">Logout</a></li>

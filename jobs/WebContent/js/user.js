@@ -1,7 +1,7 @@
 function validateAndSubmit(type) {
 	//Validation goes here ..
 	arrMandatoryFields.length = 0;
-	if ($('#txtUserId').val() == "") arrMandatoryFields.push('txtUserId');
+	if ($('#txtroll').val() == "") arrMandatoryFields.push('txtroll');
 	if ($('#txtName').val() == "") arrMandatoryFields.push('txtName');
 	if ($('#txtUserPassword').val() == "") arrMandatoryFields.push('txtUserPassword');
 	if ($('#txtConfirmPassword').val() == "") arrMandatoryFields.push('txtConfirmPassword');
@@ -24,10 +24,10 @@ function validateAndSubmit(type) {
 	document.forms[0].submit();
 }
 
-function updateStudentInfo(userId) {
+function updateStudentInfo(rollNo) {
 
 	$('#MODE').val('UPDATE_USER');
-	$('#USERID').val(userId);
+	$('#ROLLNO').val(rollNo);
 	document.forms[0].action = 'users';
 	document.forms[0].submit();
 }

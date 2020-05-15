@@ -47,8 +47,8 @@ public class Users extends HttpServlet {
 				if ("LIST".equals(mode)) {
 					getListOfUsers(request, response);
 				} else if ("UPDATE_USER".equals(mode)) {
-					String userId = request.getParameter("USERID");
-					User user = findUser(userId);
+					String rollNo = request.getParameter("ROLLNO");
+					User user = findUser(rollNo);
 					if (user == null) {
 						request.setAttribute("ERROR_MSG", "User not found !!!");
 						request.setAttribute("SUCCESS_MSG", "");
@@ -65,25 +65,26 @@ public class Users extends HttpServlet {
 		}  
 	}
 
-	private User findUser(String userId) throws ClassNotFoundException, SQLException {
+	private User findUser(String rollno) throws ClassNotFoundException, SQLException {
 		User user = null;
 		Statement stmt = JobUtils.getConnection();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM USERS WHERE USER_ID = " + userId);
+		ResultSet rs = stmt.executeQuery("SELECT * FROM USERS WHERE roll_number = " + rollno);
 		if (rs.first()) {
 			user = new User();
 			
-			user.setUserId(rs.getInt(1));
+			user.setRollno(rs.getInt(1));
 			user.setPassword(rs.getString(2));
-			user.setPhone(rs.getString(3));
+			user.setName(rs.getString(3));
 			user.setAddress(rs.getString(4));
-			user.setName(rs.getString(5));
-			user.setStream(rs.getString(6));
-			user.setBranch(rs.getString(7));
-			user.setMarksSsc(rs.getInt(8));
-			user.setMarksHsc(rs.getInt(9));
-			user.setMarksGrad(rs.getInt(10));
-			user.setMarksPostGrad(rs.getInt(11));
+			user.setMobile(rs.getString(5));
+			user.setSsc(rs.getDouble(6));
+			user.setHsc(rs.getDouble(7));
+			user. setGrad(rs.getString(8));
+			user. setPostgrad(rs.getString(9));
+			user.setGradm(rs.getDouble(10));
+			user.setPostgradm(rs.getDouble(11));
 			user.setEmail(rs.getString(12));
+			user.setBacklogs(rs.getInt(13));
 		}
 		
 		return user;
@@ -98,31 +99,32 @@ public class Users extends HttpServlet {
 	}
 
 	private void updateData(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException, IOException {
-		String userId = request.getParameter("USERID");
-		String name = request.getParameter("txtName");
+		String name = request.getParameter("txtFName");
 		String password = request.getParameter("txtUserPassword");
 		String address = request.getParameter("txtAddress");
 		String mobile = request.getParameter("txtMobile");
 		String email = request.getParameter("txtEmail");
-		String stream = request.getParameter("txtStream");
-		String branch = request.getParameter("txtBranch");
+		String rollno = request.getParameter("txtroll");
+		String grad = request.getParameter("txtgrad");
+		String postgrad = request.getParameter("txtpgrad");
 		String ssc = request.getParameter("txtMarksSsc");
 		String hsc = request.getParameter("txtMarksHsc");
-		String grad = request.getParameter("txtMarksGrad");
-		String postGrad = request.getParameter("txtMarksPostGrad");
+		String gradm = request.getParameter("txtMarksgrad");
+		String postgradm = request.getParameter("txtMarkspgrad");
+		String backlogs = request.getParameter("txtback");
 
 		Statement stmt = JobUtils.getConnection();  
 		
-		Integer updated = stmt.executeUpdate("UPDATE USERS SET  password = '"+password+"', phone = '"+mobile+"', address = '"+address+"', email = '"+email+"', "
-				+ "stream = '"+stream+"', branch = '"+branch+"', name = '"+name+"',"
-				+ "marks_ssc = "+ssc+", marks_hsc = "+hsc+", marks_grad = "+grad+", marks_postgrad = " + postGrad + " WHERE USER_ID = " + userId);
+		Integer updated = stmt.executeUpdate("UPDATE USERS SET  password = '"+password+"', mobile = '"+mobile+"', address = '"+address+"', email = '"+email+"', "
+				+ "grad = '"+grad+"',  name = '"+name+"',"
+				+ "ssc_marks = "+ssc+", hsc_marks = "+hsc+", postgd = "+postgrad+", backlogs = "+backlogs+", marks_grad = "+gradm+", marks_postgrad = " + postgradm  + " WHERE roll_number = " + rollno);
 		
 		RequestDispatcher rd = null;
 		request.setAttribute("SUCCESS_MSG", "");
 		request.setAttribute("ERROR_MSG", "");
 		if (updated > 0) {
 			request.setAttribute("SUCCESS_MSG", "Student Info Updated Successfully !!!");
-			rd = request.getRequestDispatcher("users?MODE=UPDATE_USER&USERID="+userId);
+			rd = request.getRequestDispatcher("users?MODE=UPDATE_USER&ROLLNO="+rollno);
 		} else {
 			request.setAttribute("ERROR_MSG", "Unable to update student Info !! Try after sometime !!");
 			rd = request.getRequestDispatcher("jsp/users.jsp");
@@ -133,24 +135,25 @@ public class Users extends HttpServlet {
 
 	private static void addData(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException, IOException {
 		
-		String userId = request.getParameter("txtUserId");
-		String name = request.getParameter("txtName");
+		String name = request.getParameter("txtFName");
 		String password = request.getParameter("txtUserPassword");
 		String address = request.getParameter("txtAddress");
 		String mobile = request.getParameter("txtMobile");
 		String email = request.getParameter("txtEmail");
-		String stream = request.getParameter("txtStream");
-		String branch = request.getParameter("txtBranch");
+		String rollno = request.getParameter("txtroll");
+		String grad = request.getParameter("txtgrad");
+		String postgrad = request.getParameter("txtpgrad");
 		String ssc = request.getParameter("txtMarksSsc");
 		String hsc = request.getParameter("txtMarksHsc");
-		String grad = request.getParameter("txtMarksGrad");
-		String postGrad = request.getParameter("txtMarksPostGrad");
+		String gradm = request.getParameter("txtMarksgrad");
+		String postgradm = request.getParameter("txtMarkspgrad");
+		String backlogs = request.getParameter("txtback");
 
 		Statement stmt = JobUtils.getConnection();  
 		//(user_id, password, phone, address, name, stream, branch, marks_ssc, marks_hsc, marks_grad, marks_postgrad, email)
 		Integer inserted = stmt.executeUpdate("INSERT INTO USERS  "
-				+ "VALUES ('"+userId+"', '"+password+"', '"+mobile+"', '"+address+"', '"+name+"', '"+stream+"', "
-						+ "'"+branch+"', "+ssc+", "+hsc+", "+grad+", "+postGrad+", '"+email+"')");
+				+ "VALUES ("+rollno+", '"+password+"', '"+name+"', '"+address+"', '"+mobile+"', '"+ssc+"', "
+						+ "'"+hsc+"', '"+grad+"', '"+postgrad+"', '"+gradm+"', '"+postgradm+"', '"+email+"', '"+backlogs+"')");
 		
 		RequestDispatcher rd = null;
 		request.setAttribute("SUCCESS_MSG", "");
@@ -176,18 +179,19 @@ public class Users extends HttpServlet {
 		while (rs.next()) {
 			User user = new User();
 			
-			user.setUserId(rs.getInt(1));
+			user.setRollno(rs.getInt(1));
 			user.setPassword(rs.getString(2));
-			user.setPhone(rs.getString(3));
+			user.setName(rs.getString(3));
 			user.setAddress(rs.getString(4));
-			user.setName(rs.getString(5));
-			user.setStream(rs.getString(6));
-			user.setBranch(rs.getString(7));
-			user.setMarksSsc(rs.getInt(8));
-			user.setMarksHsc(rs.getInt(9));
-			user.setMarksGrad(rs.getInt(10));
-			user.setMarksPostGrad(rs.getInt(11));
+			user.setMobile(rs.getString(5));
+			user.setSsc(rs.getDouble(6));
+			user.setHsc(rs.getDouble(7));
+			user. setGrad(rs.getString(8));
+			user. setPostgrad(rs.getString(9));
+			user.setGradm(rs.getDouble(10));
+			user.setPostgradm(rs.getDouble(11));
 			user.setEmail(rs.getString(12));
+			user.setBacklogs(rs.getInt(13));
 			
 			lstUsers.add(user);
 		}

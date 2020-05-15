@@ -55,21 +55,21 @@ public class JobsApplns extends HttpServlet {
 	private static void getListOfJobsApplns(HttpServletRequest request) throws ClassNotFoundException,
 			SQLException {
 		Statement stmt = JobUtils.getConnection();  
-		ResultSet rs = stmt.executeQuery("select DISTINCT u.user_id, a.job_id, u.phone, j.job_title, j.company, j.date, j.stream, j.branch, u.name "
-				+ "from users u , job_applications a, jobs j where u.user_id = a.user_id AND j.job_id = a.job_id");
+		ResultSet rs = stmt.executeQuery("select DISTINCT u.roll_number, a.job_id, u.mobile, j.job_title, j.company, j.date, j.stream, j.time_and_venue, u.name "
+				+ "from users u , job_applications a, jobs j where u.roll_number = a.roll_number AND j.job_id = a.job_id");
 		List<JobApplns> lstJobApplns = new ArrayList<>();
 		
 		while (rs.next()) {
 			JobApplns jobAppln = new JobApplns();
 			
-			jobAppln.setUserId(rs.getInt(1));
+			jobAppln.setRollno(rs.getInt(1));
 			jobAppln.setJobId(rs.getInt(2));
-			jobAppln.setPhone(rs.getString(3));
+			jobAppln.setMobile(rs.getString(3));
 			jobAppln.setJobTitle(rs.getString(4));
 			jobAppln.setCompany(rs.getString(5));
 			jobAppln.setDate(rs.getString(6));
 			jobAppln.setStream(rs.getString(7));
-			jobAppln.setBranch(rs.getString(8));
+			jobAppln.setTimevenue(rs.getString(8));
 			jobAppln.setName(rs.getString(9));
 			
 			lstJobApplns.add(jobAppln);
