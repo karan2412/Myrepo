@@ -65,7 +65,7 @@ public class Users extends HttpServlet {
 		}  
 	}
 
-	private User findUser(String rollno) throws ClassNotFoundException, SQLException {
+	public User findUser(String rollno) throws ClassNotFoundException, SQLException {
 		User user = null;
 		Statement stmt = JobUtils.getConnection();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM USERS WHERE roll_number = " + rollno);
@@ -104,7 +104,7 @@ public class Users extends HttpServlet {
 		String address = request.getParameter("txtAddress");
 		String mobile = request.getParameter("txtMobile");
 		String email = request.getParameter("txtEmail");
-		String rollno = request.getParameter("txtroll");
+		String rollno = request.getParameter("ROLLNO");
 		String grad = request.getParameter("txtgrad");
 		String postgrad = request.getParameter("txtpgrad");
 		String ssc = request.getParameter("txtMarksSsc");
@@ -114,10 +114,10 @@ public class Users extends HttpServlet {
 		String backlogs = request.getParameter("txtback");
 
 		Statement stmt = JobUtils.getConnection();  
-		
-		Integer updated = stmt.executeUpdate("UPDATE USERS SET  password = '"+password+"', mobile = '"+mobile+"', address = '"+address+"', email = '"+email+"', "
+		String query = "UPDATE USERS SET  password = '"+password+"', mobile = '"+mobile+"', address = '"+address+"', email = '"+email+"', "
 				+ "grad = '"+grad+"',  name = '"+name+"',"
-				+ "ssc_marks = "+ssc+", hsc_marks = "+hsc+", postgd = "+postgrad+", backlogs = "+backlogs+", marks_grad = "+gradm+", marks_postgrad = " + postgradm  + " WHERE roll_number = " + rollno);
+				+ "ssc_marks = "+ssc+", hsc_marks = "+hsc+", postgrad = "+postgrad+", backlogs = "+backlogs+", marks_grad = "+gradm+", marks_postgrad = " + postgradm  + " WHERE roll_number = " + "'"+rollno+"'";
+		Integer updated = stmt.executeUpdate(query);
 		
 		RequestDispatcher rd = null;
 		request.setAttribute("SUCCESS_MSG", "");

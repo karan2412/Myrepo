@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jmit.kg.jobs.beans.Job;
+import org.jmit.kg.jobs.beans.User;
 import org.jmit.kg.jobs.util.JobUtils;
 import org.jmit.kg.jobs.util.ValueUtil;
 
@@ -57,8 +58,9 @@ public class Jobs extends HttpServlet {
 			} else if ("UPDATE_DATA".equals(mode)) {
 				updateData(request, response);
 			} else if ("APPLY_JOB".equals(mode)) {
-				getListOfJobs(request, response);
+				List<Job> lstJobs= getListOfJobs(request, response);
 				applyJob(request, response);
+				sendMail(request,lstJobs);
 			} else if ("APPLN".equals(mode)) {
 				// TODO: List of Job Applications
 			}
@@ -67,6 +69,46 @@ public class Jobs extends HttpServlet {
 			e.printStackTrace();
 		}  
 		
+	}
+
+	private void sendMail(HttpServletRequest request,List<Job> lstJobs) {
+		HttpSession session = request.getSession();
+		String rollno = ValueUtil.getStringValueNotNull(session.getAttribute("ROLLNO"));
+		String jobId = request.getParameter("JOBID");
+		int jobIdInt = Integer.MIN_VALUE;
+		
+		if(jobId != null) {
+			try {
+				jobIdInt = Integer.parseInt(jobId);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Error while parsing Job Id. Got NumberFOrmattException. Value from Client : " + jobId);
+				e.printStackTrace();
+				
+			}
+		}
+		
+		Job job =null;
+		if(jobIdInt > 0 && lstJobs != null && !lstJobs.isEmpty()) {
+			for(Job jobFromList : lstJobs) {
+				if(jobIdInt == jobFromList.getJobId()) {
+					job=jobFromList;
+					break;
+				}
+			}
+		}
+		
+		if(job != null) {
+			try {
+				User user = new Users().findUser(rollno);
+				String email = user.getEmail();
+				
+				EmailSender.send(email, "Hello " + user.getName());
+				
+			}  catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void applyJob(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException, IOException {
@@ -184,7 +226,7 @@ public class Jobs extends HttpServlet {
 		
 	}
 
-	private void getListOfJobs(HttpServletRequest request,
+	private List<Job> getListOfJobs(HttpServletRequest request,
 			HttpServletResponse response) throws ClassNotFoundException,
 			SQLException, ServletException, IOException {
 		Statement stmt = JobUtils.getConnection();  
@@ -211,6 +253,7 @@ public class Jobs extends HttpServlet {
 		}
 		
 		request.setAttribute("lstJobs", lstJobs);
+		return lstJobs;
 		
 	}
 

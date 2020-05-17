@@ -68,7 +68,7 @@
 					<tr>
 						<td width="20%" class="req">Enter Full Name</td>
 						<td width="30%"><input type="text" id="txtFname" name="txtFname" style="width: 95%;" <%= "UPDATE_USER".equals(strMode) ? "disabled" : ""%> value="${user.name}" /></td>
-						</tr>
+					</tr>
 					<tr>
 						<td class="req">Password</td>
 						<td><input type="password" id="txtUserPassword" name="txtUserPassword" style="width: 95%;"  value="${user.password}" /></td>
@@ -106,7 +106,7 @@
 					</tr>
 					<tr>
 						<td class="req">Graduation %</td>
-						<td><input type="text" id="txtMarksgrad" name="txtMarksgard" style="width: 95%;"  value="${user.gradm}"/></td>
+						<td><input type="text" id="txtMarksgrad" name="txtMarksgrad" style="width: 95%;"  value="${user.gradm}"/></td>
 						<td class="req">Post Graduation %</td>
 						<td><input type="text" id="txtMarkspgrad" name="txtMarkspgrad" style="width: 95%;"  value="${user.postgradm}"/></td>
 					</tr>

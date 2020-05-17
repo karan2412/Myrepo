@@ -100,6 +100,10 @@ input[type="text"], input[type="password"] {
 	margin: 20px auto;
 }
 
+#main {
+	margin-bottom: 50px;
+}
+
 #main,#logo,#menubar,#site_content,#footer {
 	margin-left: auto;
 	margin-right: auto;
@@ -260,7 +264,7 @@ ul#menu li a:hover {
 	text-align: center;
 	background: #3B3939 url(footer.png) repeat-x;
 	color: #A8AA94;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 }
 
