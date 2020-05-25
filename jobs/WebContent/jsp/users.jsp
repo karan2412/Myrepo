@@ -10,7 +10,7 @@
 	successMsg = successMsg == null ? "" : successMsg;
 %>
 <h3 style="color: RED; text-align: center;" id="infoMessage"><%= !"".equals(errorMsg) ? errorMsg : (!"".equals(successMsg) ? successMsg : "") %></h3>
-<form id="employee" name="employee" method="post">
+<form id="employee" name="employee" method="post" enctype="multipart/form-data">
 	<input type="hidden" id="MODE" name="MODE" value="<%= strMode %>">
 	<input type="hidden" id="ROLLNO" name="ROLLNO" value="${param.ROLLNO}">
 	<input type="hidden" id="USERTYPE" name="USERTYPE" value="<%= userType %>">
@@ -67,7 +67,7 @@
 					</tr>
 					<tr>
 						<td width="20%" class="req">Enter Full Name</td>
-						<td width="30%"><input type="text" id="txtFname" name="txtFname" style="width: 95%;" <%= "UPDATE_USER".equals(strMode) ? "disabled" : ""%> value="${user.name}" /></td>
+						<td width="30%"><input type="text" id="txtFName" name="txtFName" style="width: 95%;" <%= "UPDATE_USER".equals(strMode) ? "" : ""%> value="${user.name}" /></td>
 					</tr>
 					<tr>
 						<td class="req">Password</td>
@@ -131,7 +131,7 @@
 						<td colspan="3"><input type="file" id="pgradfile" name="pgradfile" style="width: 97.5%;" /></td>
 					</tr>
 					<tr>
-						<td>Upload Resume</td>
+						<td>Upload Resume/Profile</td>
 						<td colspan="3"><input type="file" id="resumefile" name="resumefile" style="width: 97.5%;"/></td>
 					</tr>
 					<tr>

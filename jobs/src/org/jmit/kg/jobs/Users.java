@@ -1,6 +1,8 @@
 package org.jmit.kg.jobs;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,17 +12,20 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import org.jmit.kg.jobs.beans.User;
 import org.jmit.kg.jobs.util.JobUtils;
 import org.jmit.kg.jobs.util.ValueUtil;
 
 @WebServlet("/users")
+@MultipartConfig
 public class Users extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -79,12 +84,13 @@ public class Users extends HttpServlet {
 			user.setMobile(rs.getString(5));
 			user.setSsc(rs.getDouble(6));
 			user.setHsc(rs.getDouble(7));
-			user. setGrad(rs.getString(8));
-			user. setPostgrad(rs.getString(9));
+			user.setGrad(rs.getString(8));
+			user.setPostgrad(rs.getString(9));
 			user.setGradm(rs.getDouble(10));
 			user.setPostgradm(rs.getDouble(11));
 			user.setEmail(rs.getString(12));
 			user.setBacklogs(rs.getInt(13));
+			
 		}
 		
 		return user;
@@ -104,20 +110,62 @@ public class Users extends HttpServlet {
 		String address = request.getParameter("txtAddress");
 		String mobile = request.getParameter("txtMobile");
 		String email = request.getParameter("txtEmail");
-		String rollno = request.getParameter("ROLLNO");
+		Integer rollno = Integer.valueOf(request.getParameter("ROLLNO"));
 		String grad = request.getParameter("txtgrad");
 		String postgrad = request.getParameter("txtpgrad");
-		String ssc = request.getParameter("txtMarksSsc");
-		String hsc = request.getParameter("txtMarksHsc");
-		String gradm = request.getParameter("txtMarksgrad");
-		String postgradm = request.getParameter("txtMarkspgrad");
-		String backlogs = request.getParameter("txtback");
+		Double ssc = Double.valueOf(request.getParameter("txtMarksSsc"));
+		Double hsc = Double.valueOf(request.getParameter("txtMarksHsc"));
+		Double gradm = Double.valueOf(request.getParameter("txtMarksgrad"));
+		Double postgradm = Double.valueOf(request.getParameter("txtMarkspgrad"));
+		Integer backlogs = Integer.valueOf(request.getParameter("txtback"));
 
-		Statement stmt = JobUtils.getConnection();  
-		String query = "UPDATE USERS SET  password = '"+password+"', mobile = '"+mobile+"', address = '"+address+"', email = '"+email+"', "
-				+ "grad = '"+grad+"',  name = '"+name+"',"
-				+ "ssc_marks = "+ssc+", hsc_marks = "+hsc+", postgrad = "+postgrad+", backlogs = "+backlogs+", marks_grad = "+gradm+", marks_postgrad = " + postgradm  + " WHERE roll_number = " + "'"+rollno+"'";
-		Integer updated = stmt.executeUpdate(query);
+		InputStream is10 = null;
+		InputStream is12 = null;
+		InputStream isGrad = null;
+		InputStream isPostGrad = null;
+		
+		List<Part> fileParts = (List<Part>) request.getParts();
+		for (Part f : fileParts) {
+			try {
+				if (f.getName().equals("10file")) {
+					is10 = f.getInputStream();
+				} else if (f.getName().equals("12file")) {
+					is12 = f.getInputStream();
+				} else if (f.getName().equals("gradfile")) {
+					isGrad = f.getInputStream();
+				} else if (f.getName().equals("pgradfile")) {
+					isPostGrad = f.getInputStream();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+		String query = "UPDATE USERS SET  password = ?, mobile = ?, address = ?, email = ?, grad = ?,  name = ?,"
+				+ "ssc_marks = ?, hsc_marks = ?, postgrad = ?, backlogs = ?, marks_grad = ?, marks_postgrad = ?,"
+				+ "file_10 = ?, file_12 = ?, file_grad = ?, file_postgrad = ? WHERE roll_number = ?";
+		
+		PreparedStatement stmt = JobUtils.getPSConnection(query);
+		stmt.setString(1, password);
+		stmt.setString(2, mobile);
+		stmt.setString(3, address);
+		stmt.setString(4, email);
+		stmt.setString(5, grad);
+		stmt.setString(6, name);
+		stmt.setDouble(7, ssc);
+		stmt.setDouble(8, hsc);
+		stmt.setString(9, postgrad);
+		stmt.setInt(10, backlogs);
+		stmt.setDouble(11, gradm);
+		stmt.setDouble(12, postgradm);
+		stmt.setBlob(13, is10);
+		stmt.setBlob(14, is12);
+		stmt.setBlob(15, isGrad);
+		stmt.setBlob(16, isPostGrad);
+		stmt.setInt(17, rollno);
+
+		Integer updated = stmt.executeUpdate();
 		
 		RequestDispatcher rd = null;
 		request.setAttribute("SUCCESS_MSG", "");
