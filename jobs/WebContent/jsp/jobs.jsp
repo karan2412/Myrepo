@@ -109,7 +109,7 @@
 					<tr>
 						<td class="req">Graduation %</td>
 						<td><input type="text" id="txtMarksGrad" name="txtMarksGrad" style="width: 95%;" value="${job.marksGrad}" /></td>
-						<td class="req">Post Graduation %</td>
+						<td>Post Graduation %</td>
 						<td><input type="text" id="txtMarkspGrad" name="txtMarkspGrad" style="width: 95%;"  value="${job.marksPGrad}"/></td>
 					
 					</tr>

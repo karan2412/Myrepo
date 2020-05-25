@@ -3,6 +3,7 @@ package org.jmit.kg.jobs;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +104,42 @@ public class Jobs extends HttpServlet {
 				User user = new Users().findUser(rollno);
 				String email = user.getEmail();
 				
-				EmailSender.send(email, "Hello " + user.getName());
+				EmailSender.send(email,"Hello"+user.getName()+"\n"+"<html>\n" + 
+						" <body>\n" + 
+						"  <table id=\"RecordList\" width=\"100%\">\n" + 
+						"					<thead>\n" + 
+						"						<tr>\n" + 
+						"							<th align=\"center\">Job Title</th>\n" + 
+						"							<th align=\"center\">Job Description</th>\n" + 
+						"							<th align=\"center\">Company</th>\n" + 
+						"							<th align=\"center\">Date of Visit</th>\n" + 
+						"							<th align=\"center\">Stream</th>\n" + 
+						"							<th align=\"center\">Time and Venue</th>\n" + 
+						"							<th align=\"center\">SSC marks Req.</th>\n" + 
+						"							<th align=\"center\">HSC marks Req.</th>\n" + 
+						"							<th align=\"center\">Graduation marks Req.</th>\n" + 
+						"							<th align=\"center\">Post Grad. marks Req.</th>\n" + 
+						"							<th align=\"center\">Backlogs Allowed</th>\n" + 
+						"							\n" + 
+						"						</tr>\n" + 
+						"					</thead>\n" + 
+						"					    <tbody><tr>\n" + 
+						"					        <td>"+job.getJobTitle()+"</td>\n" + 
+						"					        <td>"+job.getJobDesc()+"</td>	 \n" + 
+						"					        <td>"+job.getCompany()+"</td>\n" + 
+						"					        <td>"+job.getDate()+"</td>\n" + 
+						"					        <td>"+job.getStream()+"</td>\n" + 
+						"					        <td>"+job.getTimenvenue()+"</td>\n" + 
+						"							<td>"+job.getMarksSsc()+"</td>\n" + 
+						"							<td>"+job.getMarksHsc()+"</td>\n" + 
+						"							<td>"+job.getMarksGrad()+"</td>\n" + 
+						"							<td>"+job.getMarksPGrad()+"</td>\n" + 
+						"							<td>"+job.getBacklogs()+"</td>" + 
+						"					       </tr> \n" + 
+						"				        </tbody>\n" + 
+						"	</table>\n" + 
+						" </body>\n" + 
+						"</html>" );
 				
 			}  catch (Exception e) {
 				e.printStackTrace();
@@ -116,8 +152,15 @@ public class Jobs extends HttpServlet {
 		HttpSession session = request.getSession();
 		String rollno = ValueUtil.getStringValueNotNull(session.getAttribute("ROLLNO"));
 
-		Statement stmt = JobUtils.getConnection();  
-		Integer inserted = stmt.executeUpdate("INSERT INTO JOB_APPLICATIONS  VALUES ("+jobId+", "+rollno+")");
+		Integer inserted = 0;
+		try {
+			Statement stmt = JobUtils.getConnection();  
+			inserted = stmt.executeUpdate("INSERT INTO JOB_APPLICATIONS  VALUES ("+jobId+", "+rollno+")");
+		} catch (SQLIntegrityConstraintViolationException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			inserted=1;
+		}
 		
 		RequestDispatcher rd = null;
 		request.setAttribute("SUCCESS_MSG", "");
