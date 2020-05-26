@@ -1,37 +1,100 @@
-CREATE TABLE `users` (
-   `user_id` int(11) NOT NULL,
-   `password` varchar(45) NOT NULL,
-   `phone` varchar(10) NOT NULL,
-   `address` varchar(150) DEFAULT NULL,
-   `name` varchar(45) NOT NULL,
-   `stream` varchar(45) DEFAULT NULL,
-   `branch` varchar(45) DEFAULT NULL,
-   `marks_ssc` int(11) DEFAULT NULL,
-   `marks_hsc` int(11) DEFAULT NULL,
-   `marks_grad` int(11) DEFAULT NULL,
-   `marks_postgrad` int(11) DEFAULT NULL,
-   `email` varchar(45) NOT NULL,
-   PRIMARY KEY (`user_id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
- 
- INSERT INTO `users` VALUES (100,'sarthak123','8447666717','167, sector 18, jagadhri','Sarthak','B. Tech','CS',55,64,61,0,'er.sarthak25@gmail.com');
- 
- 
- CREATE TABLE `jobs` (
-   `job_id` int(11) NOT NULL,
-   `job_title` varchar(45) NOT NULL,
-   `job_desc` varchar(1000) NOT NULL,
-   `company` varchar(150) DEFAULT NULL,
-   `date` varchar(45) NOT NULL,
-   `stream` varchar(45) DEFAULT NULL,
-   `branch` varchar(45) DEFAULT NULL,
-   `marks_ssc` int(11) DEFAULT NULL,
-   `marks_hsc` int(11) DEFAULT NULL,
-   `marks_grad` int(11) DEFAULT NULL,
-   PRIMARY KEY (`job_id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
- 
-  CREATE TABLE `job_applications` (
-   `job_id` int(11) NOT NULL,
-   `user_id` int(11) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
- 
+vw-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               10.2.14-MariaDB - mariadb.org binary distribution
+-- Server OS:                    Win64
+-- HeidiSQL Version:             9.4.0.5125
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+-- Dumping database structure for jmit
+DROP DATABASE IF EXISTS `jmit`;
+CREATE DATABASE IF NOT EXISTS `jmit` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `jmit`;
+
+-- Dumping structure for table jmit.jobs
+DROP TABLE IF EXISTS `jobs`;
+CREATE TABLE IF NOT EXISTS `jobs` (
+  `job_id` int(11) NOT NULL AUTO_INCREMENT,
+  `job_title` varchar(45) NOT NULL,
+  `job_desc` varchar(1000) NOT NULL,
+  `company` varchar(150) NOT NULL,
+  `date` varchar(45) NOT NULL,
+  `stream` varchar(45) NOT NULL,
+  `time_and_venue` varchar(45) NOT NULL,
+  `marks_ssc` int(11) NOT NULL,
+  `marks_hsc` int(11) NOT NULL,
+  `marks_grad` int(11) NOT NULL,
+  `marks_postgraduation` int(11) DEFAULT NULL,
+  `Allowed_backlogs` int(3) NOT NULL,
+  PRIMARY KEY (`job_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table jmit.jobs: ~5 rows (approximately)
+DELETE FROM `jobs`;
+/*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
+INSERT INTO `jobs` (`job_id`, `job_title`, `job_desc`, `company`, `date`, `stream`, `time_and_venue`, `marks_ssc`, `marks_hsc`, `marks_grad`, `marks_postgraduation`, `Allowed_backlogs`) VALUES
+	(1, 'Platform Engineer', 'Developer', 'Firminiq.pvt.ltd', '2020-05-29', 'B Tech', 'IT', 87, 60, 65, NULL, 0),
+	(2, 'Platform Engineer', 'Developer', 'Firminiq.pvt.ltd', '2020-05-20', 'B Tech', 'IT - CS', 87, 60, 65, NULL, 2),
+	(3, 'software developer', 'qwertyuio', 'abcd', '2020-05-27', 'B Tech', '9:00 AM  CSE Block', 60, 60, 77, NULL, 1),
+	(4, 'Trainer', 'sasdfghj', 'xyz', '2020-05-23', 'B Tech', '9:00 AM  CSE Block', 60, 60, 77, NULL, 1),
+	(5, 'Platform Engineer', 'qwertyuiop', 'abcd', '2020-05-29', 'B Tech', '9:00 AM  IT Block', 60, 60, 77, NULL, 1);
+/*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
+
+-- Dumping structure for table jmit.job_applications
+DROP TABLE IF EXISTS `job_applications`;
+CREATE TABLE IF NOT EXISTS `job_applications` (
+  `job_id` int(11) NOT NULL,
+  `roll_number` int(11) NOT NULL,
+  UNIQUE KEY `index1` (`job_id`,`roll_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Dumping data for table jmit.job_applications: ~2 rows (approximately)
+DELETE FROM `job_applications`;
+/*!40000 ALTER TABLE `job_applications` DISABLE KEYS */;
+INSERT INTO `job_applications` (`job_id`, `roll_number`) VALUES
+	(1, 100),
+	(2, 11),
+	(3, 11),
+	(4, 11),
+	(5, 11);
+/*!40000 ALTER TABLE `job_applications` ENABLE KEYS */;
+
+-- Dumping structure for table jmit.users
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `roll_number` int(11) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `address` varchar(150) DEFAULT NULL,
+  `mobile` varchar(10) NOT NULL,
+  `ssc_marks` double DEFAULT NULL,
+  `hsc_marks` double DEFAULT NULL,
+  `grad` varchar(50) DEFAULT NULL,
+  `postgrad` varchar(50) DEFAULT NULL,
+  `marks_grad` double DEFAULT NULL,
+  `marks_postgrad` double DEFAULT NULL,
+  `email` varchar(45) NOT NULL,
+  `backlogs` int(11) DEFAULT NULL,
+  `file_10` mediumblob DEFAULT NULL,
+  `file_12` mediumblob DEFAULT NULL,
+  `file_grad` mediumblob DEFAULT NULL,
+  `file_postgrad` mediumblob DEFAULT NULL,
+  PRIMARY KEY (`roll_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Dumping data for table jmit.users: ~2 rows (approximately)
+DELETE FROM `users`;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` (`roll_number`, `password`, `name`, `address`, `mobile`, `ssc_marks`, `hsc_marks`, `grad`, `postgrad`, `marks_grad`, `marks_postgrad`, `email`, `backlogs`, `file_10`, `file_12`, `file_grad`, `file_postgrad`) VALUES
+	(1, '123', 'Administrator', '167 Sector 18 Jagadhri Haryana135003', '123456', 60, 21, NULL, NULL, 21, 21, '123', 0, NULL, NULL, NULL, NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

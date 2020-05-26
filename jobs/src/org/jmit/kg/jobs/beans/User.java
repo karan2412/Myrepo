@@ -15,7 +15,35 @@ public class User {
 	private Double gradm;
 	private Double postgradm;
 	private Integer backlogs;
+	private Boolean has10Doc;
+	private Boolean has12Doc;
+	private Boolean hasGradDoc;
+	private Boolean hasPostGradDoc;
 	
+	public Boolean getHas10Doc() {
+		return has10Doc;
+	}
+	public void setHas10Doc(Boolean has10Doc) {
+		this.has10Doc = has10Doc;
+	}
+	public Boolean getHas12Doc() {
+		return has12Doc;
+	}
+	public void setHas12Doc(Boolean has12Doc) {
+		this.has12Doc = has12Doc;
+	}
+	public Boolean getHasGradDoc() {
+		return hasGradDoc;
+	}
+	public void setHasGradDoc(Boolean hasGradDoc) {
+		this.hasGradDoc = hasGradDoc;
+	}
+	public Boolean getHasPostGradDoc() {
+		return hasPostGradDoc;
+	}
+	public void setHasPostGradDoc(Boolean hasPostGradDoc) {
+		this.hasPostGradDoc = hasPostGradDoc;
+	}
 	public Integer getRollno() {
 		return rollno;
 	}

@@ -14,6 +14,7 @@
 	<input type="hidden" id="MODE" name="MODE" value="<%= strMode %>">
 	<input type="hidden" id="ROLLNO" name="ROLLNO" value="${param.ROLLNO}">
 	<input type="hidden" id="USERTYPE" name="USERTYPE" value="<%= userType %>">
+	<input type="hidden" id="DOCTYPE" name="DOCTYPE">
 	
 	<table width="100%">
 		<% if ("LIST".equals(strMode)) { %>
@@ -116,19 +117,59 @@
 					</tr>
 					<tr>
 						<td>10th Marksheet</td>
-						<td colspan="3"><input type="file" id="10file" name="10file" style="width: 97.5%;" /></td>
+						<td colspan="3">
+							<c:choose>
+								<c:when test="${user.has10Doc}">
+									<input type="file" id="10file" name="10file" style="width: 77.5%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+									<a style="cursor: pointer;" onclick="downloadDoc(${user.rollno}, '10file');">View / Download</a>
+								</c:when>
+								<c:otherwise>
+									<input type="file" id="10file" name="10file" style="width: 97.5%;" />
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<td>12th Marksheet</td>
-						<td colspan="3"><input type="file" id="12file" name="12file" style="width: 97.5%;" /></td>
+						<td colspan="3">
+							<c:choose>
+								<c:when test="${user.has12Doc}">
+									<input type="file" id="12file" name="12file" style="width: 77.5%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+									<a style="cursor: pointer;" onclick="downloadDoc(${user.rollno}, '12file');">View / Download</a>
+								</c:when>
+								<c:otherwise>
+									<input type="file" id="12file" name="12file" style="width: 97.5%;" />
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<td>Graduation Marksheets</td>
-						<td colspan="3"><input type="file" id="gradfile" name="gradfile" style="width: 97.5%;"/></td>
+						<td colspan="3">
+							<c:choose>
+								<c:when test="${user.hasGradDoc}">
+									<input type="file" id="gradfile" name="gradfile" style="width: 77.5%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+									<a style="cursor: pointer;" onclick="downloadDoc(${user.rollno}, 'gradfile');">View / Download</a>
+								</c:when>
+								<c:otherwise>
+									<input type="file" id="gradfile" name="gradfile" style="width: 97.5%;" />
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<td>Post Graduation Marksheets</td>
-						<td colspan="3"><input type="file" id="pgradfile" name="pgradfile" style="width: 97.5%;" /></td>
+						<td colspan="3">
+							<c:choose>
+								<c:when test="${user.hasPostGradDoc}">
+									<input type="file" id="pgradfile" name="pgradfile" style="width: 77.5%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+									<a style="cursor: pointer;" onclick="downloadDoc(${user.rollno}, 'pgradfile');">View / Download</a>
+								</c:when>
+								<c:otherwise>
+									<input type="file" id="pgradfile" name="pgradfile" style="width: 97.5%;" />
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<td>Upload Resume/Profile</td>

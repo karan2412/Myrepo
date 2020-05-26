@@ -2,6 +2,7 @@ package org.jmit.kg.jobs;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -90,7 +91,15 @@ public class Users extends HttpServlet {
 			user.setPostgradm(rs.getDouble(11));
 			user.setEmail(rs.getString(12));
 			user.setBacklogs(rs.getInt(13));
-			
+			Blob file10 = rs.getBlob(14);
+			user.setHas10Doc(file10 != null && file10.length() > 0);
+			Blob file12 = rs.getBlob(15);
+			user.setHas12Doc(file12 != null && file12.length() > 0);
+			Blob fileGrad = rs.getBlob(16);
+			user.setHasGradDoc(fileGrad != null && fileGrad.length() > 0);
+			Blob filePostGrad = rs.getBlob(17);
+			user.setHasPostGradDoc(filePostGrad != null && filePostGrad.length() > 0);
+
 		}
 		
 		return user;
@@ -110,7 +119,7 @@ public class Users extends HttpServlet {
 		String address = request.getParameter("txtAddress");
 		String mobile = request.getParameter("txtMobile");
 		String email = request.getParameter("txtEmail");
-		Integer rollno = Integer.valueOf(request.getParameter("ROLLNO"));
+		Integer rollno = Integer.valueOf(request.getParameter("txtroll"));
 		String grad = request.getParameter("txtgrad");
 		String postgrad = request.getParameter("txtpgrad");
 		Double ssc = Double.valueOf(request.getParameter("txtMarksSsc"));
@@ -143,8 +152,20 @@ public class Users extends HttpServlet {
 
 
 		String query = "UPDATE USERS SET  password = ?, mobile = ?, address = ?, email = ?, grad = ?,  name = ?,"
-				+ "ssc_marks = ?, hsc_marks = ?, postgrad = ?, backlogs = ?, marks_grad = ?, marks_postgrad = ?,"
-				+ "file_10 = ?, file_12 = ?, file_grad = ?, file_postgrad = ? WHERE roll_number = ?";
+				+ "ssc_marks = ?, hsc_marks = ?, postgrad = ?, backlogs = ?, marks_grad = ?, marks_postgrad = ?";
+		if (is10 != null && is10.available() > 0) {
+			query += ", file_10 = ?";
+		}
+		if (is12 != null && is12.available() > 0) {
+			query += ", file_12 = ?";
+		}
+		if (isGrad != null && isGrad.available() > 0) {
+			query += ", file_grad = ?";
+		}
+		if (isPostGrad != null && isPostGrad.available() > 0) {
+			query += ", file_postgrad = ?";
+		}
+		query += " WHERE roll_number = ?";
 		
 		PreparedStatement stmt = JobUtils.getPSConnection(query);
 		stmt.setString(1, password);
@@ -159,11 +180,22 @@ public class Users extends HttpServlet {
 		stmt.setInt(10, backlogs);
 		stmt.setDouble(11, gradm);
 		stmt.setDouble(12, postgradm);
-		stmt.setBlob(13, is10);
-		stmt.setBlob(14, is12);
-		stmt.setBlob(15, isGrad);
-		stmt.setBlob(16, isPostGrad);
-		stmt.setInt(17, rollno);
+		Integer x = 13;
+
+		if (is10 != null && is10.available() > 0) {
+			stmt.setBlob(x++, is10);
+		}
+		if (is12 != null && is12.available() > 0) {
+			stmt.setBlob(x++, is12);
+		}
+		if (isGrad != null && isGrad.available() > 0) {
+			stmt.setBlob(x++, isGrad);
+		}
+		if (isPostGrad != null && isPostGrad.available() > 0) {
+			stmt.setBlob(x++, isPostGrad);
+		}
+		stmt.setInt(x, rollno);
+
 
 		Integer updated = stmt.executeUpdate();
 		
@@ -188,20 +220,91 @@ public class Users extends HttpServlet {
 		String address = request.getParameter("txtAddress");
 		String mobile = request.getParameter("txtMobile");
 		String email = request.getParameter("txtEmail");
-		String rollno = request.getParameter("txtroll");
+		Integer rollno = Integer.valueOf(request.getParameter("txtroll"));
 		String grad = request.getParameter("txtgrad");
 		String postgrad = request.getParameter("txtpgrad");
-		String ssc = request.getParameter("txtMarksSsc");
-		String hsc = request.getParameter("txtMarksHsc");
-		String gradm = request.getParameter("txtMarksgrad");
-		String postgradm = request.getParameter("txtMarkspgrad");
-		String backlogs = request.getParameter("txtback");
+		Double ssc = Double.valueOf(request.getParameter("txtMarksSsc"));
+		Double hsc = Double.valueOf(request.getParameter("txtMarksHsc"));
+		Double gradm = Double.valueOf(request.getParameter("txtMarksgrad"));
+		Double postgradm = Double.valueOf(request.getParameter("txtMarkspgrad"));
+		Integer backlogs = Integer.valueOf(request.getParameter("txtback"));
 
-		Statement stmt = JobUtils.getConnection();  
-		//(user_id, password, phone, address, name, stream, branch, marks_ssc, marks_hsc, marks_grad, marks_postgrad, email)
-		Integer inserted = stmt.executeUpdate("INSERT INTO USERS  "
-				+ "VALUES ("+rollno+", '"+password+"', '"+name+"', '"+address+"', '"+mobile+"', '"+ssc+"', "
-						+ "'"+hsc+"', '"+grad+"', '"+postgrad+"', '"+gradm+"', '"+postgradm+"', '"+email+"', '"+backlogs+"')");
+		InputStream is10 = null;
+		InputStream is12 = null;
+		InputStream isGrad = null;
+		InputStream isPostGrad = null;
+		
+		List<Part> fileParts = (List<Part>) request.getParts();
+		for (Part f : fileParts) {
+			try {
+				if (f.getName().equals("10file")) {
+					is10 = f.getInputStream();
+				} else if (f.getName().equals("12file")) {
+					is12 = f.getInputStream();
+				} else if (f.getName().equals("gradfile")) {
+					isGrad = f.getInputStream();
+				} else if (f.getName().equals("pgradfile")) {
+					isPostGrad = f.getInputStream();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+		String queryColumns = "INSERT INTO USERS (roll_number, password, mobile, address, email, grad,  name,"
+				+ "ssc_marks, hsc_marks, postgrad, backlogs, marks_grad, marks_postgrad";
+		String queryValules = "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
+
+		if (is10 != null && is10.available() > 0) {
+			queryColumns += ", file_10";
+			queryValules += ", ?";
+		}
+		if (is12 != null && is12.available() > 0) {
+			queryColumns += ", file_12";
+			queryValules += ", ?";
+		}
+		if (isGrad != null && isGrad.available() > 0) {
+			queryColumns += ", file_grad";
+			queryValules += ", ?";
+		}
+		if (isPostGrad != null && isPostGrad.available() > 0) {
+			queryColumns += ", file_postgrad";
+			queryValules += ", ?";
+		}
+		queryColumns += ")";
+		queryValules  += ")";
+		
+		PreparedStatement stmt = JobUtils.getPSConnection(queryColumns + queryValules);
+		stmt.setInt(1, rollno);
+		stmt.setString(2, password);
+		stmt.setString(3, mobile);
+		stmt.setString(4, address);
+		stmt.setString(5, email);
+		stmt.setString(6, grad);
+		stmt.setString(7, name);
+		stmt.setDouble(8, ssc);
+		stmt.setDouble(9, hsc);
+		stmt.setString(10, postgrad);
+		stmt.setInt(11, backlogs);
+		stmt.setDouble(12, gradm);
+		stmt.setDouble(13, postgradm);
+		Integer x = 14;
+
+		if (is10 != null && is10.available() > 0) {
+			stmt.setBlob(x++, is10);
+		}
+		if (is12 != null && is12.available() > 0) {
+			stmt.setBlob(x++, is12);
+		}
+		if (isGrad != null && isGrad.available() > 0) {
+			stmt.setBlob(x++, isGrad);
+		}
+		if (isPostGrad != null && isPostGrad.available() > 0) {
+			stmt.setBlob(x++, isPostGrad);
+		}
+
+		Integer inserted = stmt.executeUpdate();
 		
 		RequestDispatcher rd = null;
 		request.setAttribute("SUCCESS_MSG", "");
@@ -240,6 +343,14 @@ public class Users extends HttpServlet {
 			user.setPostgradm(rs.getDouble(11));
 			user.setEmail(rs.getString(12));
 			user.setBacklogs(rs.getInt(13));
+			Blob file10 = rs.getBlob(14);
+			user.setHas10Doc(file10 != null && file10.length() > 0);
+			Blob file12 = rs.getBlob(15);
+			user.setHas12Doc(file12 != null && file12.length() > 0);
+			Blob fileGrad = rs.getBlob(16);
+			user.setHasGradDoc(fileGrad != null && fileGrad.length() > 0);
+			Blob filePostGrad = rs.getBlob(17);
+			user.setHasPostGradDoc(filePostGrad != null && filePostGrad.length() > 0);
 			
 			lstUsers.add(user);
 		}
