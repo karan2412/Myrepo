@@ -22,6 +22,7 @@ function validateAndSubmit(type) {
 	} else if (type == 'UPDATE_USER') {
 		$('#MODE').val('UPDATE_DATA');
 	}
+	$('#txtroll').prop('disabled', false);
 	document.forms[0].action = 'users';
 	document.forms[0].submit();
 }
@@ -41,5 +42,13 @@ function closeToList() {
 	} else {
 		document.forms[0].action = 'users';
 	}
+	document.forms[0].submit();
+}
+
+function downloadDoc(rollNo, docType) {
+	console.log(rollNo, docType);
+	$('#ROLLNO').val(rollNo);
+	$('#DOCTYPE').val(docType);
+	document.forms[0].action = 'uploadDoc';
 	document.forms[0].submit();
 }

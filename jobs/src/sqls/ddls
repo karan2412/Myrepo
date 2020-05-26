@@ -1,54 +1,25 @@
-CREATE DATABASE  IF NOT EXISTS `jmit` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `jmit`;
--- MySQL dump 10.13  Distrib 5.7.26, for Win64 (x86_64)
---
--- Host: localhost    Database: jmit
--- ------------------------------------------------------
--- Server version	5.7.26
+vw-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               10.2.14-MariaDB - mariadb.org binary distribution
+-- Server OS:                    Win64
+-- HeidiSQL Version:             9.4.0.5125
+-- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Table structure for table `job_applications`
---
 
-DROP TABLE IF EXISTS `job_applications`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `job_applications` (
-  `job_id` int(11) NOT NULL,
-  `roll_number` int(11) NOT NULL,
-  UNIQUE KEY `index1` (`job_id`,`roll_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- Dumping database structure for jmit
+DROP DATABASE IF EXISTS `jmit`;
+CREATE DATABASE IF NOT EXISTS `jmit` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `jmit`;
 
---
--- Dumping data for table `job_applications`
---
-
-LOCK TABLES `job_applications` WRITE;
-/*!40000 ALTER TABLE `job_applications` DISABLE KEYS */;
-INSERT INTO `job_applications` VALUES (3,1216621),(4,1216637);
-/*!40000 ALTER TABLE `job_applications` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `jobs`
---
-
+-- Dumping structure for table jmit.jobs
 DROP TABLE IF EXISTS `jobs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `jobs` (
+CREATE TABLE IF NOT EXISTS `jobs` (
   `job_id` int(11) NOT NULL AUTO_INCREMENT,
   `job_title` varchar(45) NOT NULL,
   `job_desc` varchar(1000) NOT NULL,
@@ -63,60 +34,67 @@ CREATE TABLE `jobs` (
   `Allowed_backlogs` int(3) NOT NULL,
   PRIMARY KEY (`job_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `jobs`
---
-
-LOCK TABLES `jobs` WRITE;
+-- Dumping data for table jmit.jobs: ~5 rows (approximately)
+DELETE FROM `jobs`;
 /*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
-INSERT INTO `jobs` VALUES (1,'Platform Engineer','Developer','Firminiq.pvt.ltd','2020-05-29','B Tech','IT',87,60,65,NULL,0),(2,'Platform Engineer','Developer','Firminiq.pvt.ltd','24 Dec,2019','B Tech','IT',87,60,65,0,0),(3,'software developer','qwertyuio','abcd','2020-05-27','B Tech','9:00 AM  CSE Block',60,60,77,NULL,1),(4,'Trainer','sasdfghj','xyz','2020-05-23','B Tech','9:00 AM  CSE Block',60,60,77,NULL,1),(5,'Platform Engineer','qwertyuiop','abcd','2020-05-29','B Tech','9:00 AM  IT Block',60,60,77,NULL,1);
+INSERT INTO `jobs` (`job_id`, `job_title`, `job_desc`, `company`, `date`, `stream`, `time_and_venue`, `marks_ssc`, `marks_hsc`, `marks_grad`, `marks_postgraduation`, `Allowed_backlogs`) VALUES
+	(1, 'Platform Engineer', 'Developer', 'Firminiq.pvt.ltd', '2020-05-29', 'B Tech', 'IT', 87, 60, 65, NULL, 0),
+	(2, 'Platform Engineer', 'Developer', 'Firminiq.pvt.ltd', '2020-05-20', 'B Tech', 'IT - CS', 87, 60, 65, NULL, 2),
+	(3, 'software developer', 'qwertyuio', 'abcd', '2020-05-27', 'B Tech', '9:00 AM  CSE Block', 60, 60, 77, NULL, 1),
+	(4, 'Trainer', 'sasdfghj', 'xyz', '2020-05-23', 'B Tech', '9:00 AM  CSE Block', 60, 60, 77, NULL, 1),
+	(5, 'Platform Engineer', 'qwertyuiop', 'abcd', '2020-05-29', 'B Tech', '9:00 AM  IT Block', 60, 60, 77, NULL, 1);
 /*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `users`
---
+-- Dumping structure for table jmit.job_applications
+DROP TABLE IF EXISTS `job_applications`;
+CREATE TABLE IF NOT EXISTS `job_applications` (
+  `job_id` int(11) NOT NULL,
+  `roll_number` int(11) NOT NULL,
+  UNIQUE KEY `index1` (`job_id`,`roll_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Dumping data for table jmit.job_applications: ~2 rows (approximately)
+DELETE FROM `job_applications`;
+/*!40000 ALTER TABLE `job_applications` DISABLE KEYS */;
+INSERT INTO `job_applications` (`job_id`, `roll_number`) VALUES
+	(1, 100),
+	(2, 11),
+	(3, 11),
+	(4, 11),
+	(5, 11);
+/*!40000 ALTER TABLE `job_applications` ENABLE KEYS */;
+
+-- Dumping structure for table jmit.users
 DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `roll_number` int(11) NOT NULL,
   `password` varchar(45) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `address` varchar(150) NOT NULL,
-  `mobile` varchar(45) NOT NULL,
-  `ssc_marks` varchar(10) NOT NULL,
-  `hsc_marks` varchar(10) NOT NULL,
-  `grad` varchar(10) NOT NULL,
-  `postgrad` varchar(10) DEFAULT NULL,
-  `marks_grad` varchar(10) NOT NULL,
-  `marks_postgrad` varchar(10) DEFAULT NULL,
+  `name` varchar(45) NOT NULL,
+  `address` varchar(150) DEFAULT NULL,
+  `mobile` varchar(10) NOT NULL,
+  `ssc_marks` double DEFAULT NULL,
+  `hsc_marks` double DEFAULT NULL,
+  `grad` varchar(50) DEFAULT NULL,
+  `postgrad` varchar(50) DEFAULT NULL,
+  `marks_grad` double DEFAULT NULL,
+  `marks_postgrad` double DEFAULT NULL,
   `email` varchar(45) NOT NULL,
-  `backlogs` varchar(45) NOT NULL,
+  `backlogs` int(11) DEFAULT NULL,
+  `file_10` mediumblob DEFAULT NULL,
+  `file_12` mediumblob DEFAULT NULL,
+  `file_grad` mediumblob DEFAULT NULL,
+  `file_postgrad` mediumblob DEFAULT NULL,
   PRIMARY KEY (`roll_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
+-- Dumping data for table jmit.users: ~2 rows (approximately)
+DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'123456','TPO','JMIT','1111111111','0','0','btech','','0','0','tpo@jmit.com','10'),(1216621,'1216621','Karan Goel','Jmit , nbh hosteln,431','9518043654','90.0','98.0','btech','99.9','85.0','0.0','goyalkaran2412@gmail.com','0'),(1216637,'1216637','Nivish','1965','7988010829','99','88','btech','','85','','dhingra2382@gmail.com','0'),(1216645,'1216645','Riya','karnal','123456789','90','98','btech','','85','','riyachawla1021@gmail.com','01');
+INSERT INTO `users` (`roll_number`, `password`, `name`, `address`, `mobile`, `ssc_marks`, `hsc_marks`, `grad`, `postgrad`, `marks_grad`, `marks_postgrad`, `email`, `backlogs`, `file_10`, `file_12`, `file_grad`, `file_postgrad`) VALUES
+	(1, '123', 'Administrator', '167 Sector 18 Jagadhri Haryana135003', '123456', 60, 21, NULL, NULL, 21, 21, '123', 0, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2020-05-25 14:38:35

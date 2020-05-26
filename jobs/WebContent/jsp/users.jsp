@@ -10,10 +10,11 @@
 	successMsg = successMsg == null ? "" : successMsg;
 %>
 <h3 style="color: RED; text-align: center;" id="infoMessage"><%= !"".equals(errorMsg) ? errorMsg : (!"".equals(successMsg) ? successMsg : "") %></h3>
-<form id="employee" name="employee" method="post">
+<form id="employee" name="employee" method="post" enctype="multipart/form-data">
 	<input type="hidden" id="MODE" name="MODE" value="<%= strMode %>">
 	<input type="hidden" id="ROLLNO" name="ROLLNO" value="${param.ROLLNO}">
 	<input type="hidden" id="USERTYPE" name="USERTYPE" value="<%= userType %>">
+	<input type="hidden" id="DOCTYPE" name="DOCTYPE">
 	
 	<table width="100%">
 		<% if ("LIST".equals(strMode)) { %>
@@ -66,17 +67,17 @@
 						<td colspan="4" style="text-decoration: underline; font-weight: bold;">Personal Details</td>
 					</tr>
 					<tr>
-						<td width="10%" class="req">Enter Full Name</td>
-						<td colspan="3" width="30%"><input type="text" id="txtFname" name="txtFname" style="width: 95%;" <%= "UPDATE_USER".equals(strMode) ? "disabled" : ""%> value="${user.name}" /></td>
+						<td width="20%" class="req">Enter Full Name</td>
+						<td width="30%"><input type="text" id="txtFName" name="txtFName" style="width: 95%;" <%= "UPDATE_USER".equals(strMode) ? "" : ""%> value="${user.name}" /></td>
 					</tr>
 					<tr>
 						<td class="req">Password</td>
 						<td><input type="password" id="txtUserPassword" name="txtUserPassword" style="width: 95%;"  value="${user.password}" /></td>
 						<td class="req">Confirm Password</td>
-						<td><input type="password" id="txtConfirmPassword" name="txtConfirmPassword" style="width: 95%;"  value="${user.password}" /></td>
+						<td><input type="text" id="txtConfirmPassword" name="txtConfirmPassword" style="width: 95%;"  value="${user.password}" /></td>
 					</tr>
 					<tr>
-						<td class="req">Address</td>
+						<td>Address</td>
 						<td colspan="3"><input type="text" id="txtAddress" name="txtAddress" style="width: 97.5%;"  value="${user.address}" /></td>
 					</tr>
 					<tr>
@@ -89,13 +90,13 @@
 						<td colspan="4" style="text-decoration: underline; font-weight: bold;">Academic Details</td>
 					</tr>
 					<tr>
-						<td class="req">Roll Number</td>
+						<td>Roll Number</td>
 						<td colspan="3"><input type="text" id="txtroll" name="txtroll" style="width: 97.5%;" <%= "UPDATE_USER".equals(strMode) ? "disabled" : ""%> value="${user.rollno}"/></td>
 					</tr>
 					<tr>
 						<td class="req">Graduation</td>
 						<td><input type="text" id="txtgrad" name="txtgrad" style="width: 95%;" value="${user.grad}" /></td>
-						<td>Post Graduation</td>
+						<td class="req">Post Graduation</td>
 						<td><input type="text" id="txtpgrad" name="txtpgrad" style="width: 95%;"  value="${user.postgrad}" /></td>
 					</tr>
 					<tr>
@@ -107,31 +108,71 @@
 					<tr>
 						<td class="req">Graduation %</td>
 						<td><input type="text" id="txtMarksgrad" name="txtMarksgrad" style="width: 95%;"  value="${user.gradm}"/></td>
-						<td>Post Graduation %</td>
+						<td class="req">Post Graduation %</td>
 						<td><input type="text" id="txtMarkspgrad" name="txtMarkspgrad" style="width: 95%;"  value="${user.postgradm}"/></td>
 					</tr>
 					<tr>
-						<td class="req">Current Backlogs</td>
+						<td>Current Backlogs</td>
 						<td colspan="3"><input type="text" id="txtback" name="txtback" style="width: 97.5%;"  value="${user.backlogs}"/></td>
 					</tr>
 					<tr>
 						<td>10th Marksheet</td>
-						<td colspan="3"><input type="file" id="10file" name="10file" style="width: 97.5%;" /></td>
+						<td colspan="3">
+							<c:choose>
+								<c:when test="${user.has10Doc}">
+									<input type="file" id="10file" name="10file" style="width: 77.5%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+									<a style="cursor: pointer;" onclick="downloadDoc(${user.rollno}, '10file');">View / Download</a>
+								</c:when>
+								<c:otherwise>
+									<input type="file" id="10file" name="10file" style="width: 97.5%;" />
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<td>12th Marksheet</td>
-						<td colspan="3"><input type="file" id="12file" name="12file" style="width: 97.5%;" /></td>
+						<td colspan="3">
+							<c:choose>
+								<c:when test="${user.has12Doc}">
+									<input type="file" id="12file" name="12file" style="width: 77.5%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+									<a style="cursor: pointer;" onclick="downloadDoc(${user.rollno}, '12file');">View / Download</a>
+								</c:when>
+								<c:otherwise>
+									<input type="file" id="12file" name="12file" style="width: 97.5%;" />
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<td>Graduation Marksheets</td>
-						<td colspan="3"><input type="file" id="gradfile" name="gradfile" style="width: 97.5%;"/></td>
+						<td colspan="3">
+							<c:choose>
+								<c:when test="${user.hasGradDoc}">
+									<input type="file" id="gradfile" name="gradfile" style="width: 77.5%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+									<a style="cursor: pointer;" onclick="downloadDoc(${user.rollno}, 'gradfile');">View / Download</a>
+								</c:when>
+								<c:otherwise>
+									<input type="file" id="gradfile" name="gradfile" style="width: 97.5%;" />
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<td>Post Graduation Marksheets</td>
-						<td colspan="3"><input type="file" id="pgradfile" name="pgradfile" style="width: 97.5%;" /></td>
+						<td colspan="3">
+							<c:choose>
+								<c:when test="${user.hasPostGradDoc}">
+									<input type="file" id="pgradfile" name="pgradfile" style="width: 77.5%;" />&nbsp;&nbsp;&nbsp;&nbsp;
+									<a style="cursor: pointer;" onclick="downloadDoc(${user.rollno}, 'pgradfile');">View / Download</a>
+								</c:when>
+								<c:otherwise>
+									<input type="file" id="pgradfile" name="pgradfile" style="width: 97.5%;" />
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
-						<td>Upload Resume</td>
+						<td>Upload Resume/Profile</td>
 						<td colspan="3"><input type="file" id="resumefile" name="resumefile" style="width: 97.5%;"/></td>
 					</tr>
 					<tr>
